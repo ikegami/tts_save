@@ -1,0 +1,35 @@
+{
+  "extends": [
+    "oclif",
+    "oclif-typescript"
+  ],
+   "rules": {
+      "array-bracket-spacing": [ "error", "always" ],
+      "brace-style": "off",
+      "computed-property-spacing": "off",
+      "indent": [ "error", 3 ],
+      "key-spacing": [ "error", { "mode": "minimum" } ],
+      "lines-between-class-members": [ "error", "always", { "exceptAfterSingleLine": true } ],
+      "max-depth": "off",
+      "max-params": "off",
+      "no-control-regex": "off",
+      "no-multiple-empty-lines": "off",
+      "no-unreachable": "error",
+      "no-warning-comments": [ "error", { "terms": [ "~~~", "XXX", "TODO", "FIXME" ] } ],
+      "no-whitespace-before-property": "off",
+      "object-curly-spacing": [ "error", "always" ],
+      "operator-linebreak": "off",
+      "semi": [ "error", "always" ],
+      "space-in-parens": "off",
+      "template-curly-spacing": "off",
+      "unicorn/explicit-length-check": "off",
+      "unicorn/catch-error-name": [ "error", { "name": "e" } ],
+      "@typescript-eslint/member-delimiter-style": [
+         "error",
+         {
+            "singleline": { "delimiter": "comma", "requireLast": false },
+            "multiline": { "delimiter": "comma", "requireLast": true }
+         }
+      ]
+   }
+}

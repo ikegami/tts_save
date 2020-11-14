@@ -1,0 +1,29 @@
+{
+   "compilerOptions": {
+      "allowSyntheticDefaultImports": true,
+      "alwaysStrict": true,
+      "declaration": true,
+      "esModuleInterop": true,        /* ? */
+      "forceConsistentCasingInFileNames": true,
+      "importHelpers": true,
+      "module": "commonjs",
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "outDir": "lib",
+      "rootDir": "src",
+      "strict": true,
+      "skipLibCheck": true,          /* ? */
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "target": "es2015",
+      "typeRoots": [
+         "src/@types",
+         "node_modules/@types"
+      ]
+   },
+   "include": [
+      "src/**/*"
+   ]
+}
