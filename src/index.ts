@@ -6,6 +6,7 @@ import { Command, flags } from '@oclif/command';
 import os from 'os';
 import path from 'path';
 const { dirname } = path;
+import stream from 'stream';
 
 import {
    ModuleWithScripts,
@@ -138,6 +139,23 @@ function chomp(s: string): string {
       s = s.substring(0, len - 1);
 
    return s;
+}
+
+
+async function readStream(stream: stream.Readable): Promise<Buffer> {
+   const chunks = [ ];
+   for await (const chunk of stream)
+      chunks.push(chunk);
+
+   return Buffer.concat(chunks);
+}
+
+
+async function readTextFromStdin(): Promise<string> {
+   if (process.platform === 'win32')
+      return ( await readStream(process.stdin) ).toString('utf8');
+   else
+      return readFileSync(process.stdin.fd, 'utf8');
 }
 
 
@@ -447,7 +465,7 @@ class ExtractCommand extends Command {
 
       let mod_json;
       if (!args.save_file) {
-         mod_json = readFileSync(process.stdin.fd, 'utf8');
+         mod_json = await readTextFromStdin();
       }
       else if (existsSync(args.save_file)) {
          mod_json = readFileSync(args.save_file, 'utf8');
@@ -459,7 +477,6 @@ class ExtractCommand extends Command {
                : os.homedir();
 
          const tts_dir_qfn = path.join(doc_dir_qfn, 'My Games/Tabletop Simulator');
-
          const mod_fqfn = path.resolve(tts_dir_qfn, 'Saves', args.save_file);
          mod_json = readFileSync(mod_fqfn, 'utf8');
       }

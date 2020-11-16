@@ -12,7 +12,6 @@ the components from a Tabletop Simulator save file.
 * [Installation](#installation)
 * [Synopsis](#synopsis)
 * [Usage](#usage)
-* [Diagnostics](#diagnostics)
 * [Accuracy, Safety and Conflicts](#accuracy-conflicts-and-safety)
 * [Support](#support)
 * [Repository](#repository)
@@ -99,23 +98,6 @@ Tabletop Simulator's "Saves" folder.
     When used in conjunction with `--xml`, included XML files
     (`<Include src="path"/>`) will be extracted into the same
     directory.
-
-
-# Diagnostics
-
-* ```lang-none
-    TypeError: Cannot read property '1' of undefined
-    ```
-
-    Reading from stdin (by passing no arguments)
-    isn't currently supported in Windows.
-
-* ```lang-none
-    Error: ENOENT: no such file or directory, open 'C:\Users\ikegami\Documents\My Games\Tabletop Simulator\Saves\TS_Save_000.json'
-    Code: ENOENT
-    ```
-
-    The specified file can't be found. Double check that you have the correct name.
 
 
 # Accuracy, Conflicts and Safety
