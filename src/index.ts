@@ -446,8 +446,8 @@ class ExtractCommand extends Command {
       const { args, flags } = this.parse(ExtractCommand);
 
       let mod_json;
-      if (!args.save_file || args.save_file === '-') {
-         mod_json = readFileSync(0, 'utf8');
+      if (!args.save_file) {
+         mod_json = readFileSync(process.stdin.fd, 'utf8');
       }
       else if (existsSync(args.save_file)) {
          mod_json = readFileSync(args.save_file, 'utf8');
