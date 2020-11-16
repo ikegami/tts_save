@@ -1,0 +1,19 @@
+<Include src="TtsSaveExtractorTests/lib/bar1.xml"/>
+
+<glob>
+   <Include src="TtsSaveExtractorTests/lib/bar2.xml"/>
+</glob>
+
+<glob> <Include src="TtsSaveExtractorTests/lib/bar3.xml"/> </glob>
+
+<Include src="TtsSaveExtractorTests/lib/bar4a.xml"/>
+
+<glob>
+   <Include src="TtsSaveExtractorTests/lib/bar5a.xml"/>
+</glob>
+
+<Include src="TtsSaveExtractorTests/lib/no_terminal.xml"/>
+
+<glob>
+   <Include src="TtsSaveExtractorTests/lib/empty.xml"/>
+</glob>

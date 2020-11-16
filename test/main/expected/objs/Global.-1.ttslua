@@ -1,0 +1,17 @@
+#include TtsSaveExtractorTests/lib/foo1
+#include <TtsSaveExtractorTests/lib/foo2>
+#include TtsSaveExtractorTests/lib/empty1
+#include <TtsSaveExtractorTests/lib/empty2>
+  #include TtsSaveExtractorTests/lib/foo3
+
+#include TtsSaveExtractorTests/lib/no_terminal1
+#include <TtsSaveExtractorTests/lib/no_terminal2>
+
+#include TtsSaveExtractorTests/lib/foo4a
+
+require("TtsSaveExtractorTests/lib/qux1")
+require("TtsSaveExtractorTests.lib.qux2")
+#include TtsSaveExtractorTests/lib/foo5
+
+function onLoad()
+end

@@ -31,7 +31,7 @@ const char_escapes_xml: Readonly<Record<string, string>> = {
 
 function text_to_xml_attr(text: string): string {
    if (invalid_xml_re.test(text))
-      throw 'String not supported by XML';
+      throw 'String not supported by XML';  // eslint-disable-line no-throw-literal
 
    return text.replace(chars_to_escape_xml_re, _ => char_escapes_xml[_]);
 }
@@ -132,10 +132,12 @@ function remove_extra_trailing_lf(s: string): string {
 }
 
 
-const trailing_lf_re = /\n$/;
-
 function chomp(s: string): string {
-   return s.replace(trailing_lf_re, '');
+   const len = s.length;
+   if (len && s.substring(len - 1) === '\n')
+      s = s.substring(0, len - 1);
+
+   return s;
 }
 
 

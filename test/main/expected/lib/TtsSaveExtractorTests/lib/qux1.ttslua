@@ -1,0 +1,2 @@
+local qux1 = { }
+return qux1

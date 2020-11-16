@@ -2,6 +2,7 @@
 *-error.log
 /dist
 /lib
+/test/main/out
 /tmp
 /package-lock.json
 node_modules

@@ -1,0 +1,3 @@
+local qux2 = { }
+require("TtsSaveExtractorTests.lib.qux3")
+return qux2
