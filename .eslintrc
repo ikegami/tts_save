@@ -13,6 +13,7 @@
       "max-depth": "off",
       "max-params": "off",
       "no-control-regex": "off",
+      "no-else-return": "off",
       "no-multiple-empty-lines": "off",
       "no-unreachable": "error",
       "no-warning-comments": [ "error", { "terms": [ "~~~", "XXX", "TODO", "FIXME" ] } ],

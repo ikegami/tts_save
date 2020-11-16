@@ -6,7 +6,7 @@ import { Command, flags } from '@oclif/command';
 import os from 'os';
 import path from 'path';
 const { dirname } = path;
-import stream from 'stream';
+import { Readable } from 'stream';
 
 import {
    ModuleWithScripts,
@@ -142,7 +142,7 @@ function chomp(s: string): string {
 }
 
 
-async function readStream(stream: stream.Readable): Promise<Buffer> {
+async function readStream(stream: Readable): Promise<Buffer> {
    const chunks = [ ];
    for await (const chunk of stream)
       chunks.push(chunk);
