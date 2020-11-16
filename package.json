@@ -35,7 +35,7 @@
 	],
 	"homepage": "https://github.com/ikegami/tts_save_extractor",
 	"keywords": [],
-	"license": "CC0",
+	"license": "CC0-1.0",
 	"main": "lib/index.js",
 	"mocha": {
 		"recursive": true,
