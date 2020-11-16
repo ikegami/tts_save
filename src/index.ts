@@ -430,7 +430,7 @@ class ExtractCommand extends Command {
       if (!is_module_with_notebook(mod))
          return;
 
-      const notebook_dir_qfn = path.join(this.out_dir_qfn, 'Notebook');
+      const notebook_dir_qfn = path.join(this.out_dir_qfn, 'notes');
       let dir_exists = existsSync(notebook_dir_qfn);
 
       const counts: Record<string, number> = { };

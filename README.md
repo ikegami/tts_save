@@ -87,7 +87,7 @@ Tabletop Simulator's "Saves" folder.
 
 * `--notes`, `-n`
 
-    Save the notebook entries into the `Notebook` subdirectory of the output directory.
+    Save the notebook entries into the `notes` subdirectory of the output directory.
 
 * `--unbundle`, `-u`
 
