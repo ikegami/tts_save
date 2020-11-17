@@ -24,6 +24,9 @@ the components from a Tabletop Simulator save file.
 npm install -g tts_save_extractor
 ```
 
+`npm` is provided by [Node.js](https://nodejs.org/).
+
+
 # Synopsis
 
 To extract all components of `TS_Save_000.json` into the
