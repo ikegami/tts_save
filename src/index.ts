@@ -433,8 +433,28 @@ class ExtractCommand extends Command {
       const notebook_dir_qfn = path.join(this.out_dir_qfn, 'notes');
       let dir_exists = existsSync(notebook_dir_qfn);
 
+      const keys = Object.keys(mod.TabStates);
+      keys.sort(
+         (a, b) => {
+            const a_num = parseInt(a, 10);
+            const b_num = parseInt(b, 10);
+            if (!isNaN(a_num) && !isNaN(b_num)) {
+               if      (a_num < b_num) return -1;
+               else if (a_num > b_num) return +1;
+               else                    return  0;
+            }
+
+            if      (!isNaN(a_num)) return -1;
+            else if (!isNaN(b_num)) return +1;
+
+            if      (a < b) return -1;
+            else if (a > b) return +1;
+            else            return  0;
+         },
+      );
+
       const counts: Record<string, number> = { };
-      for (const key of Object.keys(mod.TabStates)) {
+      for (const key of keys) {
          const tab = mod.TabStates[key];
 
          const notes = normalize_line_endings(tab.body);
@@ -455,7 +475,8 @@ class ExtractCommand extends Command {
             dir_exists = true;
          }
 
-         writeTextFileSync(path.join(notebook_dir_qfn, fn), notes);
+         const file = ( tab.title.length ? 'Title: ' + normalize_line_endings(tab.title) + '\n\n' : '' ) + notes;
+         writeTextFileSync(path.join(notebook_dir_qfn, fn), file);
       }
    }
 
