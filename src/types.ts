@@ -43,3 +43,17 @@ export interface ObjDataRow {
    script?: string,
    xml?:    string,
 }
+
+
+export const enum LinkedResourceType {
+   ASSET_BUNDLE = 'asset_bundle',
+   AUDIO        = 'audio',
+   IMAGE        = 'image',
+   MODEL        = 'model',
+   PDF          = 'pdf',
+}
+
+export type LinkedResourceData = {
+   url:  string,
+   type: LinkedResourceType,
+};

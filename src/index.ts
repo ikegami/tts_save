@@ -12,6 +12,7 @@ import {
    JsonValue, JsonArray, JsonDict,
    is_json_dict, is_json_array,
    ObjDataRow, TabDataRow,
+   LinkedResourceType, LinkedResourceData,
 } from './types';
 
 
@@ -217,6 +218,7 @@ class ExtractCommand extends Command {
       all:      flags.boolean({ char: 'a', description: 'Extract everything, and unbundle included/required files.' }),
       scripts:  flags.boolean({ char: 's', description: 'Extract scripts.' }),
       xml:      flags.boolean({ char: 'x', description: 'Extract XML.' }),
+      linked:   flags.boolean({ char: 'l', description: 'Save linked resources.' }),
       notes:    flags.boolean({ char: 'n', description: 'Extract Notebook entries.' }),
       unbundle: flags.boolean({ char: 'u', description: 'Unbundle included/required files.' }),
    };
@@ -233,6 +235,7 @@ class ExtractCommand extends Command {
    out_dir_qfn         = '';
    opt_extract_scripts = false;
    opt_extract_xml     = false;
+   opt_extract_linked  = false;
    opt_extract_notes   = false;
    opt_unbundle        = false;
 
@@ -409,7 +412,6 @@ class ExtractCommand extends Command {
          }
 
          const objs: JsonValue[] = [ ...mod.ObjectStates ];
-
          while (objs.length) {
             const obj = objs.pop() as JsonValue;
             if (!is_json_dict(obj))
@@ -455,6 +457,146 @@ class ExtractCommand extends Command {
 
          writeTextFileSync(qfn, file);
       }
+   }
+
+
+   add_linked_resource(resources_lkup: Record<string, LinkedResourceData>, url: Readonly<JsonValue>, type: Readonly<LinkedResourceType>): void {
+      if (typeof url === 'string' && url !== '' && !( url in resources_lkup )) {
+         resources_lkup[url] = {
+            url:  url,
+            type: type,
+         };
+      }
+   }
+
+
+   extract_linked_from_mod(resources_lkup: Record<string, LinkedResourceData>, mod: Readonly<JsonDict>): void {
+      this.add_linked_resource(resources_lkup, mod.TableURL, LinkedResourceType.IMAGE);
+      this.add_linked_resource(resources_lkup, mod.SkyURL,   LinkedResourceType.IMAGE);
+
+      if (is_json_dict(mod.Lighting)) {
+         // Might be more limited than other images.
+         this.add_linked_resource(resources_lkup, mod.Lighting.LutURL, LinkedResourceType.IMAGE);
+      }
+
+      if (is_json_dict(mod.MusicPlayer)) {
+         const mp = mod.MusicPlayer;
+         this.add_linked_resource(resources_lkup, mp.CurrentAudioURL, LinkedResourceType.AUDIO);
+
+         if (is_json_array(mp.AudioLibrary)) {
+            for (const rec of mp.AudioLibrary) {
+               if (is_json_dict(rec)) {
+                  this.add_linked_resource(resources_lkup, rec.Item1, LinkedResourceType.AUDIO);
+               }
+            }
+         }
+      }
+
+      if (is_json_array(mod.CustomUIAssets)) {
+         for (const rec of mod.CustomUIAssets) {
+            if (is_json_dict(rec)) {
+               this.add_linked_resource(resources_lkup, rec.URL, LinkedResourceType.IMAGE);
+            }
+         }
+      }
+   }
+
+
+   extract_linked_from_obj(resources_lkup: Record<string, LinkedResourceData>, obj: Readonly<JsonDict>): void {
+      /*
+         Card                       CustomDeck
+         CardCustom                 CustomDeck
+         Custom_Assetbundle         CustomAssetbundle
+         Custom_Board               CustomImage
+         Custom_Dice                CustomImage
+         Custom_Model               CustomMesh
+         Custom_PDF                 CustomPDF
+         Custom_Tile                CustomImage
+         Custom_Tile_Stack          CustomImage
+         Custom_Token               CustomImage
+         Custom_Token_Stack         CustomImage
+         Deck                       CustomDeck
+         DeckCustom                 CustomDeck
+         Figurine_Custom            CustomImage
+      */
+
+      if (is_json_dict(obj.CustomImage)) {
+         const custom = obj.CustomImage;
+         this.add_linked_resource(resources_lkup, custom.ImageURL,          LinkedResourceType.IMAGE);
+         this.add_linked_resource(resources_lkup, custom.ImageSecondaryURL, LinkedResourceType.IMAGE);
+      }
+
+      if (is_json_dict(obj.CustomDeck)) {
+         const custom = obj.CustomDeck;
+         if (is_json_dict(custom)) {
+            for (const deck_id of Object.keys(custom)) {
+               const deck = custom[deck_id];
+               if (is_json_dict(deck)) {
+                  this.add_linked_resource(resources_lkup, deck.FaceURL, LinkedResourceType.IMAGE);
+                  this.add_linked_resource(resources_lkup, deck.BackURL, LinkedResourceType.IMAGE);
+               }
+            }
+         }
+      }
+
+      if (is_json_dict(obj.CustomAssetbundle)) {
+         const custom = obj.CustomAssetbundle;
+         this.add_linked_resource(resources_lkup, custom.AssetbundleURL,          LinkedResourceType.ASSET_BUNDLE);
+         this.add_linked_resource(resources_lkup, custom.AssetbundleSecondaryURL, LinkedResourceType.ASSET_BUNDLE);
+      }
+
+      if (is_json_dict(obj.CustomMesh)) {
+         const custom = obj.CustomMesh;
+         this.add_linked_resource(resources_lkup, custom.MeshURL,     LinkedResourceType.MODEL);
+         this.add_linked_resource(resources_lkup, custom.DiffuseURL,  LinkedResourceType.IMAGE);
+         this.add_linked_resource(resources_lkup, custom.NormalURL,   LinkedResourceType.IMAGE);
+         this.add_linked_resource(resources_lkup, custom.ColliderURL, LinkedResourceType.MODEL);
+      }
+
+      if (is_json_dict(obj.CustomPDF)) {
+         const custom = obj.CustomPDF;
+         this.add_linked_resource(resources_lkup, custom.PDFUrl, LinkedResourceType.PDF);
+      }
+   }
+
+
+   extract_linked(mod: Readonly<JsonDict>): void {
+      const linked_resources_qfn = path.join(this.out_dir_qfn, 'linked_resources.json');
+
+      const resources_lkup: Record<string, LinkedResourceData> = { };
+
+      this.extract_linked_from_mod(resources_lkup, mod);
+
+      if (is_json_array(mod.ObjectStates)) {
+         const objs: JsonValue[] = [ ...mod.ObjectStates ];
+         while (objs.length) {
+            const obj = objs.pop() as JsonValue;
+            if (!is_json_dict(obj))
+               continue;
+
+            if (is_json_array(obj.ContainedObjects))
+               objs.push(...obj.ContainedObjects);
+            if (is_json_dict(obj.States))
+               objs.push(...Object.values(obj.States));
+
+            this.extract_linked_from_obj(resources_lkup, obj);
+         }
+      }
+
+      const resources = Object.values(resources_lkup);
+
+      // The test to check if the JSON is correct is pretty naïve.
+      // Hopefully, sorting the results will be sufficient to
+      // allow a binary compare.
+      resources.sort((a, b) => {
+         if (a.url < b.url) return -1;
+         if (a.url > b.url) return +1;
+         return 0;
+      });
+
+      const data = { resources: resources };
+      const json = JSON.stringify(data, undefined, 3);
+      writeTextFileSync(linked_resources_qfn, json);
    }
 
 
@@ -559,6 +701,7 @@ class ExtractCommand extends Command {
       this.out_dir_qfn         = flags.output;
       this.opt_extract_scripts = flags.all || flags.scripts;
       this.opt_extract_xml     = flags.all || flags.xml;
+      this.opt_extract_linked  = flags.all || flags.linked;
       this.opt_extract_notes   = flags.all || flags.notes;
       this.opt_unbundle        = flags.all || flags.unbundle;
 
@@ -568,7 +711,8 @@ class ExtractCommand extends Command {
       if (is_json_dict(mod)) {
          if (this.opt_extract_scripts || this.opt_extract_xml)
             this.extract_scripts(mod);
-
+         if (this.opt_extract_linked)
+            this.extract_linked(mod);
          if (this.opt_extract_notes)
             this.extract_notes(mod);
       }

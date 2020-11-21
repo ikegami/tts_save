@@ -71,7 +71,7 @@ Tabletop Simulator's "Saves" folder.
 
 * `--all`, `-a`
 
-    A shortcut for `--scripts --xml --notes --unbundle`.
+    A shortcut for `--scripts --xml --linked --notes --unbundle`.
     This is subject to being extended if/when new features are added.
 
 * `--scripts`, `-s`
@@ -88,14 +88,41 @@ Tabletop Simulator's "Saves" folder.
 
     See `--unbundle`.
 
+ * `--linked`, `-l`
+
+     Create a list of all the linked resources (e.g. images and object models).
+     This list is saved in `linked_resources.json`, which has the following format:
+
+     ```json
+     {
+        "resources": [
+           {
+              "url":  "http://...",
+              "type": "image"
+           },
+           ...
+        ]
+     }
+     ```
+
+     Values for `type` are:
+
+     * `asset_bundle`
+     * `audio`
+     * `image`
+     * `model`
+     * `pdf`
+
+     The format may be extended in future versions of this tool.
+
 * `--notes`, `-n`
 
     Save the notebook entries into the `notes` subdirectory of the output directory.
 
 * `--unbundle`, `-u`
 
-    When used in conjunction with `--scripts`, included (`#include path`
-    and `#include <path>`) scripts and required modules (`require("path")`)
+    When used in conjunction with `--scripts`, included scripts (`#include path`
+    and `#include <path>`) and required modules (`require("path")`)
     will be extracted into the `lib` subdirectory of the output directory.
 
     When used in conjunction with `--xml`, included XML files
