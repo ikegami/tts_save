@@ -9,6 +9,9 @@ const { dirname } = path;
 import { Readable } from 'stream';
 
 import {
+   JsonValue, JsonDict,
+   is_json_dict,
+   is_json_array,
    ModuleWithScripts,
    GameObjectWithScripts,
    is_module_with_scripts,
@@ -17,8 +20,8 @@ import {
 } from './types';
 
 
-const invalid_xml_re = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F]/;
-const chars_to_escape_xml_re = /[\t\n\r<>&"']/;
+const invalid_xml_re = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/;
+const chars_to_escape_xml_re = /[\t\n\r"&'<>]/;
 const char_escapes_xml: Readonly<Record<string, string>> = {
    '\t': '&#x9;',
    '\n': '&#xA;',
@@ -38,10 +41,10 @@ function text_to_xml_attr(text: string): string {
 }
 
 
-const clean_str_for_path_re = /[\\/.<>:"|?*\u0000-\u001F]/g;  // This is still very permissive.
-const module_path_sep_re = /[//\\.]/;
-const absolute_include_path_re = /^![//\\]/;
-const include_path_sep_re = /[//\\]/;
+const clean_str_for_path_re = /[\u0000-\u001F"*./:<>?\\|]]/g;  // This is still very permissive.
+const module_path_sep_re = /[./\\]/;
+const absolute_include_path_re = /^![/\\]/;
+const include_path_sep_re = /[/\\]/;
 const xml_ext_re = /\.xml$/i;
 
 function clean_str_for_path(s: string): string {
@@ -58,7 +61,7 @@ function sanitize_module_path(module_path: string): string {
    );
 }
 
-function sanitize_script_include_path(include_path: string): string|null {
+function sanitize_script_include_path(include_path: string): string|undefined {
    // foo is a relative path (foo).
    // /foo is a relative path (foo).
    // !/foo is an absolute path (/foo).
@@ -75,12 +78,12 @@ function sanitize_script_include_path(include_path: string): string|null {
          .join('/');
 
    if (!rel_path.length)
-      return null;
+      return undefined;
 
    return is_absolute ? '/' + rel_path : rel_path;
 }
 
-function sanitize_xml_include_path(include_path: string): string|null {
+function sanitize_xml_include_path(include_path: string): string|undefined {
    // foo.xml and /foo.xml are both relative paths.
 
    include_path =
@@ -92,7 +95,7 @@ function sanitize_xml_include_path(include_path: string): string|null {
          .join('/');
 
    if (!include_path.length)
-      return null;
+      return undefined;
 
    return include_path + '.xml';
 }
@@ -134,9 +137,8 @@ function remove_extra_trailing_lf(s: string): string {
 
 
 function chomp(s: string): string {
-   const len = s.length;
-   if (len && s.substring(len - 1) === '\n')
-      s = s.substring(0, len - 1);
+   if (s.slice(-1) === '\n')
+      s = s.slice(0, -1);
 
    return s;
 }
@@ -159,7 +161,7 @@ async function readTextFromStdin(): Promise<string> {
 }
 
 
-function writeTextFileSync(qfn: string, text: string) {
+function writeTextFileSync(qfn: string, text: string): void {
    writeFileSync(qfn, to_native_line_endings(ensure_trailing_lf(text)), 'utf8');
 }
 
@@ -245,11 +247,11 @@ class ExtractCommand extends Command {
             }
 
             let qfn = sanitize_script_include_path(include_path);
-            if (qfn === null)
+            if (qfn === undefined)
                return match;
 
             if (qfn[0] === '/') {
-               qfn = qfn.substring(1) + '.ttslua';
+               qfn = qfn.slice(1) + '.ttslua';
             } else {
                qfn = dir_qfn + '/' + qfn + '.ttslua';
             }
@@ -295,7 +297,7 @@ class ExtractCommand extends Command {
       return remove_extra_trailing_lf(xml.replace(xml_include_re,
          (match, prefix, include, include_path, included_xml) => {
             let qfn = sanitize_xml_include_path(include_path);
-            if (qfn === null)
+            if (qfn === undefined)
                return match;
 
             include = `<Include src="${ text_to_xml_attr(include_path) }"/>`;
@@ -318,9 +320,9 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_mod(objs: Record<string, string>, libs: Record<string, string>, mod: ModuleWithScripts) {
-      let script = this.opt_extract_scripts ? mod.LuaScript : null;
-      let xml    = this.opt_extract_xml     ? mod.XmlUI     : null;
+   extract_scripts_from_mod(objs: Record<string, string>, libs: Record<string, string>, mod: ModuleWithScripts): void {
+      let script = this.opt_extract_scripts ? mod.LuaScript : undefined;
+      let xml    = this.opt_extract_xml     ? mod.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
@@ -338,9 +340,9 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_obj(objs: Record<string, string>, libs: Record<string, string>, obj: GameObjectWithScripts) {
-      let script = this.opt_extract_scripts ? obj.LuaScript : null;
-      let xml    = this.opt_extract_xml     ? obj.XmlUI     : null;
+   extract_scripts_from_obj(objs: Record<string, string>, libs: Record<string, string>, obj: GameObjectWithScripts): void {
+      let script = this.opt_extract_scripts ? obj.LuaScript : undefined;
+      let xml    = this.opt_extract_xml     ? obj.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
@@ -368,10 +370,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts(mod: any) {
-      if (typeof mod !== 'object')
-         return;
-
+   extract_scripts(mod: JsonDict): void {
       const libs_dir_qfn = path.join(this.out_dir_qfn, 'lib');
       const objs_dir_qfn = path.join(this.out_dir_qfn, 'objs');
       const dir_exists: Record<string, boolean> = {
@@ -385,12 +384,15 @@ class ExtractCommand extends Command {
       if (is_module_with_scripts(mod))
          this.extract_scripts_from_mod(objs, libs, mod);
 
-      if (mod.ObjectStates && Array.isArray(mod.ObjectStates)) {
+      if (is_json_array(mod.ObjectStates)) {
          for (const obj of mod.ObjectStates) {
+            if (!is_json_dict(obj))
+               continue;
+
             if (is_game_object_with_scripts(obj))
                this.extract_scripts_from_obj(objs, libs, obj);
 
-            if (obj.ContainedObjects && Array.isArray(obj.ContainedObjects)) {
+            if (is_json_array(obj.ContainedObjects)) {
                for (const child_obj of obj.ContainedObjects) {
                   if (is_game_object_with_scripts(child_obj))
                      this.extract_scripts_from_obj(objs, libs, child_obj);
@@ -426,7 +428,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_notes(mod: any) {
+   extract_notes(mod: JsonDict): void {
       if (!is_module_with_notebook(mod))
          return;
 
@@ -436,16 +438,16 @@ class ExtractCommand extends Command {
       const keys = Object.keys(mod.TabStates);
       keys.sort(
          (a, b) => {
-            const a_num = parseInt(a, 10);
-            const b_num = parseInt(b, 10);
-            if (!isNaN(a_num) && !isNaN(b_num)) {
+            const a_num = Number.parseInt(a, 10);
+            const b_num = Number.parseInt(b, 10);
+            if (!Number.isNaN(a_num) && !Number.isNaN(b_num)) {
                if      (a_num < b_num) return -1;
                else if (a_num > b_num) return +1;
                else                    return  0;
             }
 
-            if      (!isNaN(a_num)) return -1;
-            else if (!isNaN(b_num)) return +1;
+            if      (!Number.isNaN(a_num)) return -1;
+            else if (!Number.isNaN(b_num)) return +1;
 
             if      (a < b) return -1;
             else if (a > b) return +1;
@@ -481,7 +483,7 @@ class ExtractCommand extends Command {
    }
 
 
-   async run() {
+   async run(): Promise<void> {
       const { args, flags } = this.parse(ExtractCommand);
 
       let mod_json;
@@ -513,13 +515,14 @@ class ExtractCommand extends Command {
 
       mkdirSync(this.out_dir_qfn, { recursive: true });
 
-      const mod = JSON.parse(mod_json);
+      const mod: JsonValue = JSON.parse(mod_json);
+      if (is_json_dict(mod)) {
+         if (this.opt_extract_scripts || this.opt_extract_xml)
+            this.extract_scripts(mod);
 
-      if (this.opt_extract_scripts || this.opt_extract_xml)
-         this.extract_scripts(mod);
-
-      if (this.opt_extract_notes)
-         this.extract_notes(mod);
+         if (this.opt_extract_notes)
+            this.extract_notes(mod);
+      }
    }
 }
 

@@ -35,7 +35,7 @@ function to_native_line_endings(s: string): string {
    if (!s.length)
       return s;
 
-   if (s.substring(s.length - 1) !== '\n')
+   if (s.slice(-1) !== '\n')
       s += '\n';
 
    if (process.platform === 'win32')

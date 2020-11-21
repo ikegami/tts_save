@@ -19,7 +19,7 @@
       "strictPropertyInitialization": true,
       "target": "es2015",
       "typeRoots": [
-         "src/@types",
+         "src/types",
          "node_modules/@types"
       ]
    },

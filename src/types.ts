@@ -1,3 +1,34 @@
+export const is_array = Array.isArray;
+
+export function is_object(x: any): x is object {
+   return x instanceof Object;
+}
+
+
+type ObjectWithProp<O extends object, P extends string> =
+   P extends keyof O ? O : O & { [K in P]: any };
+
+export function has_prop<O extends object, P extends string>(obj: O, prop: P): obj is ObjectWithProp<O, P> {
+   return prop in obj;
+}
+
+
+export type JsonValue = null | string | number | boolean | JsonArray | JsonDict;
+export type JsonArray = JsonValue[];
+// Hack to create a recursive type.
+// export type JsonDict = Record<string, JsonValue>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface JsonDict extends Record<string, JsonValue> { }
+
+export function is_json_dict(x: JsonValue): x is JsonDict {
+   return x instanceof Object && !Array.isArray(x);
+}
+
+export function is_json_array(x: JsonValue): x is JsonArray {
+   return Array.isArray(x);
+}
+
+
 export interface ModuleWithScripts {
    LuaScript: string,
    XmlUI:     string,
@@ -15,6 +46,7 @@ export function is_module_with_scripts(x: any): x is ModuleWithScripts {
 
    return true;
 }
+
 
 export interface GameObjectWithScripts {
    GUID:      string,
@@ -46,6 +78,7 @@ export function is_game_object_with_scripts(x: any): x is GameObjectWithScripts 
    return true;
 }
 
+
 export interface NotebookTab {
    body:  string,
    title: string,
@@ -64,6 +97,7 @@ export function is_notebook_tab(x: any): x is NotebookTab {
    return true;
 }
 
+
 export type Notebook = Record<string, NotebookTab>;
 
 export function is_notebook(x: any): x is Notebook {
@@ -80,6 +114,7 @@ export function is_notebook(x: any): x is Notebook {
 
    return true;
 }
+
 
 export interface ModuleWithNotebook {
    TabStates: Notebook,

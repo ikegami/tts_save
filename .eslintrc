@@ -28,8 +28,13 @@
       }],
       "space-in-parens": "off",
       "template-curly-spacing": "off",
-      "unicorn/explicit-length-check": "off",
+      "unicorn/better-regex": "off",
       "unicorn/catch-error-name": [ "error", { "name": "e" } ],
+      "unicorn/explicit-length-check": "off",
+      "unicorn/no-useless-undefined": "off",
+      "unicorn/prefer-ternary": "off",
+      "unicorn/prevent-abbreviations": "off",
+      "@typescript-eslint/explicit-function-return-type": "error",
       "@typescript-eslint/member-delimiter-style": [
          "error",
          {
