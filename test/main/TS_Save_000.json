@@ -1,7 +1,7 @@
 {
   "SaveName": "Tests for TTS Save Extractor",
   "GameMode": "Tests for TTS Save Extractor",
-  "Date": "11/16/2020 9:16:04 PM",
+  "Date": "11/21/2020 9:39:02 PM",
   "Gravity": 0.5,
   "PlayArea": 0.5,
   "GameType": "",
@@ -32,8 +32,8 @@
     "Snapping": false,
     "Offset": false,
     "BothSnapping": true,
-    "xSize": 2.0,
-    "ySize": 2.0,
+    "xSize": 1.0,
+    "ySize": 1.0,
     "PosOffset": {
       "x": 0.0,
       "y": 1.0,
@@ -82,7 +82,7 @@
           "rotX": 0.0,
           "rotY": 0.0,
           "rotZ": 0.0,
-          "scaleX": 11.7721891,
+          "scaleX": 11.7723255,
           "scaleY": 9.174497,
           "scaleZ": 4.87123871
         }
@@ -96,9 +96,9 @@
           "rotX": 0.0,
           "rotY": 90.0,
           "rotZ": 0.0,
-          "scaleX": 11.6568165,
+          "scaleX": 11.6578035,
           "scaleY": 9.174497,
-          "scaleZ": 4.92072868
+          "scaleZ": 4.92128372
         }
       },
       {
@@ -110,9 +110,9 @@
           "rotX": 0.0,
           "rotY": 270.0,
           "rotZ": 0.0,
-          "scaleX": 11.6568089,
+          "scaleX": 11.6577959,
           "scaleY": 9.174497,
-          "scaleZ": 4.92072868
+          "scaleZ": 4.92128372
         }
       },
       {
@@ -124,9 +124,9 @@
           "rotX": 0.0,
           "rotY": 179.8,
           "rotZ": 0.0,
-          "scaleX": 11.7735434,
+          "scaleX": 11.7746592,
           "scaleY": 9.174497,
-          "scaleZ": 4.872044
+          "scaleZ": 4.87263632
         }
       },
       {
@@ -138,7 +138,7 @@
           "rotX": 0.0,
           "rotY": 0.0,
           "rotZ": 0.0,
-          "scaleX": 11.7721758,
+          "scaleX": 11.772316,
           "scaleY": 9.17449951,
           "scaleZ": 4.87123871
         }
@@ -152,7 +152,7 @@
           "rotX": 0.0,
           "rotY": 180.0,
           "rotZ": 0.0,
-          "scaleX": 11.7721758,
+          "scaleX": 11.772316,
           "scaleY": 9.174497,
           "scaleZ": 4.87123871
         }
@@ -166,9 +166,9 @@
           "rotX": 0.0,
           "rotY": 270.0,
           "rotZ": 0.0,
-          "scaleX": 11.656806,
+          "scaleX": 11.6577921,
           "scaleY": 9.174497,
-          "scaleZ": 4.92072868
+          "scaleZ": 4.92128372
         }
       },
       {
@@ -180,9 +180,9 @@
           "rotX": 0.0,
           "rotY": 90.0,
           "rotZ": 0.0,
-          "scaleX": 11.65682,
+          "scaleX": 11.6578074,
           "scaleY": 9.174497,
-          "scaleZ": 4.92072868
+          "scaleZ": 4.92128372
         }
       }
     ]
@@ -308,9 +308,9 @@
         "posX": -21.0,
         "posY": 1.45999992,
         "posZ": 9.0,
-        "rotX": -8.40487E-07,
-        "rotY": 5.150526E-07,
-        "rotZ": 8.95375933E-07,
+        "rotX": -1.10972417E-06,
+        "rotY": 1.04889034E-06,
+        "rotZ": 9.941834E-07,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -346,9 +346,9 @@
         "posX": -21.0,
         "posY": 1.45999992,
         "posZ": 11.0,
-        "rotX": -9.010011E-07,
-        "rotY": 6.360246E-07,
-        "rotZ": 1.8123923E-07,
+        "rotX": -3.915649E-07,
+        "rotY": 1.1360986E-06,
+        "rotZ": 1.34852826E-06,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -384,9 +384,9 @@
         "posX": -21.0,
         "posY": 1.45999992,
         "posZ": 13.0,
-        "rotX": -3.30668229E-07,
-        "rotY": 8.015643E-07,
-        "rotZ": 1.07193284E-06,
+        "rotX": -1.44653256E-06,
+        "rotY": 1.35343089E-06,
+        "rotZ": 7.437986E-07,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -420,11 +420,11 @@
       "Name": "Bag",
       "Transform": {
         "posX": -17.0,
-        "posY": 0.774966061,
-        "posZ": 13.0,
-        "rotX": -1.17393893E-06,
-        "rotY": -0.000155220056,
-        "rotZ": -7.837216E-08,
+        "posY": 0.774967,
+        "posZ": 13.000001,
+        "rotX": -6.92688627E-06,
+        "rotY": -0.000315796176,
+        "rotZ": 6.81686743E-06,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -540,9 +540,9 @@
         "posX": -21.0,
         "posY": 1.45999992,
         "posZ": 7.0,
-        "rotX": -1.07303333E-06,
-        "rotY": 6.38864E-07,
-        "rotZ": 1.194817E-06,
+        "rotX": -3.43218325E-08,
+        "rotY": 1.33232561E-06,
+        "rotZ": 3.558306E-07,
         "scaleX": 1.0,
         "scaleY": 1.0,
         "scaleZ": 1.0
@@ -571,6 +571,450 @@
       "LuaScriptState": "",
       "XmlUI": "",
       "GUID": "19613e"
+    },
+    {
+      "Name": "Bag",
+      "Transform": {
+        "posX": -17.0,
+        "posY": 0.7749667,
+        "posZ": 10.0,
+        "rotX": -4.73911859E-06,
+        "rotY": -0.0001489835,
+        "rotZ": -6.06478852E-06,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Nesting Bag 1-1",
+      "Description": "",
+      "GMNotes": "",
+      "ColorDiffuse": {
+        "r": 0.0108725745,
+        "g": 0.7019608,
+        "b": 0.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "IgnoreFoW": false,
+      "MeasureMovement": false,
+      "DragSelectable": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "GridProjection": false,
+      "HideWhenFaceDown": false,
+      "Hands": false,
+      "MaterialIndex": -1,
+      "MeshIndex": -1,
+      "LuaScript": "-- Nesting test. Bag 1 State 1",
+      "LuaScriptState": "",
+      "XmlUI": "",
+      "ContainedObjects": [
+        {
+          "Name": "Bag",
+          "Transform": {
+            "posX": -17.0000324,
+            "posY": 2.865426,
+            "posZ": 6.99997044,
+            "rotX": 0.00168856094,
+            "rotY": 1.80886254E-05,
+            "rotZ": -0.00185830961,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "scaleZ": 1.0
+          },
+          "Nickname": "Nesting Bag 2",
+          "Description": "",
+          "GMNotes": "",
+          "ColorDiffuse": {
+            "r": 0.00681295153,
+            "g": 0.405052245,
+            "b": 0.00231304439
+          },
+          "Locked": false,
+          "Grid": true,
+          "Snap": true,
+          "IgnoreFoW": false,
+          "MeasureMovement": false,
+          "DragSelectable": true,
+          "Autoraise": true,
+          "Sticky": true,
+          "Tooltip": true,
+          "GridProjection": false,
+          "HideWhenFaceDown": false,
+          "Hands": false,
+          "MaterialIndex": -1,
+          "MeshIndex": -1,
+          "LuaScript": "-- Nesting test. Bag 2",
+          "LuaScriptState": "",
+          "XmlUI": "",
+          "ContainedObjects": [
+            {
+              "Name": "BlockSquare",
+              "Transform": {
+                "posX": -17.0,
+                "posY": 3.55047417,
+                "posZ": 1.00000024,
+                "rotX": 0.0142468642,
+                "rotY": -2.09416076E-08,
+                "rotZ": 0.000122228637,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 1.0
+              },
+              "Nickname": "Nesting Block 1-1",
+              "Description": "",
+              "GMNotes": "",
+              "ColorDiffuse": {
+                "r": 0.0,
+                "g": 0.850271344,
+                "b": 0.0
+              },
+              "Locked": false,
+              "Grid": true,
+              "Snap": true,
+              "IgnoreFoW": false,
+              "MeasureMovement": false,
+              "DragSelectable": true,
+              "Autoraise": true,
+              "Sticky": true,
+              "Tooltip": true,
+              "GridProjection": false,
+              "HideWhenFaceDown": false,
+              "Hands": false,
+              "LuaScript": "-- Nesting test. Block 1 State 1",
+              "LuaScriptState": "",
+              "XmlUI": "",
+              "GUID": "8b5aab",
+              "States": {
+                "2": {
+                  "Name": "BlockSquare",
+                  "Transform": {
+                    "posX": -17.0,
+                    "posY": 1.45999992,
+                    "posZ": -5.0,
+                    "rotX": -6.644775E-07,
+                    "rotY": 3.30561363E-07,
+                    "rotZ": 5.649713E-07,
+                    "scaleX": 1.0,
+                    "scaleY": 1.0,
+                    "scaleZ": 1.0
+                  },
+                  "Nickname": "Nesting Block 1-2",
+                  "Description": "",
+                  "GMNotes": "",
+                  "ColorDiffuse": {
+                    "r": 0.0,
+                    "g": 0.0,
+                    "b": 0.850271344
+                  },
+                  "Locked": false,
+                  "Grid": true,
+                  "Snap": true,
+                  "IgnoreFoW": false,
+                  "MeasureMovement": false,
+                  "DragSelectable": true,
+                  "Autoraise": true,
+                  "Sticky": true,
+                  "Tooltip": true,
+                  "GridProjection": false,
+                  "HideWhenFaceDown": false,
+                  "Hands": false,
+                  "LuaScript": "-- Nesting test. Block 1 State 2",
+                  "LuaScriptState": "",
+                  "XmlUI": "",
+                  "GUID": "d1366d"
+                }
+              }
+            }
+          ],
+          "GUID": "1386c1"
+        }
+      ],
+      "GUID": "d69781",
+      "States": {
+        "2": {
+          "Name": "Bag",
+          "Transform": {
+            "posX": -13.0,
+            "posY": 0.774965644,
+            "posZ": 6.99999952,
+            "rotX": -2.17778984E-06,
+            "rotY": 1.26732027E-06,
+            "rotZ": 1.23063467E-06,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "scaleZ": 1.0
+          },
+          "Nickname": "Nesting Bag 1-2",
+          "Description": "",
+          "GMNotes": "",
+          "ColorDiffuse": {
+            "r": 0.627,
+            "g": 0.124999888,
+            "b": 0.941
+          },
+          "Locked": false,
+          "Grid": true,
+          "Snap": true,
+          "IgnoreFoW": false,
+          "MeasureMovement": false,
+          "DragSelectable": true,
+          "Autoraise": true,
+          "Sticky": true,
+          "Tooltip": true,
+          "GridProjection": false,
+          "HideWhenFaceDown": false,
+          "Hands": false,
+          "MaterialIndex": -1,
+          "MeshIndex": -1,
+          "LuaScript": "-- Nesting test. Bag 1 State 2",
+          "LuaScriptState": "",
+          "XmlUI": "",
+          "ContainedObjects": [
+            {
+              "Name": "Bag",
+              "Transform": {
+                "posX": -13.0000324,
+                "posY": 2.86542463,
+                "posZ": 6.999971,
+                "rotX": 0.00168954511,
+                "rotY": -6.186598E-05,
+                "rotZ": -0.00186029507,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 1.0
+              },
+              "Nickname": "Nesting Bag 3",
+              "Description": "",
+              "GMNotes": "",
+              "ColorDiffuse": {
+                "r": 0.301960677,
+                "g": 0.0549018681,
+                "b": 0.454901934
+              },
+              "Locked": false,
+              "Grid": true,
+              "Snap": true,
+              "IgnoreFoW": false,
+              "MeasureMovement": false,
+              "DragSelectable": true,
+              "Autoraise": true,
+              "Sticky": true,
+              "Tooltip": true,
+              "GridProjection": false,
+              "HideWhenFaceDown": false,
+              "Hands": false,
+              "MaterialIndex": -1,
+              "MeshIndex": -1,
+              "LuaScript": "-- Nesting test. Bag 3",
+              "LuaScriptState": "",
+              "XmlUI": "",
+              "ContainedObjects": [
+                {
+                  "Name": "BlockSquare",
+                  "Transform": {
+                    "posX": -13.0,
+                    "posY": 3.55046272,
+                    "posZ": 1.0,
+                    "rotX": 0.007282012,
+                    "rotY": 3.79298427E-07,
+                    "rotZ": 6.288174E-05,
+                    "scaleX": 1.0,
+                    "scaleY": 1.0,
+                    "scaleZ": 1.0
+                  },
+                  "Nickname": "Nesting Block 2-1",
+                  "Description": "",
+                  "GMNotes": "",
+                  "ColorDiffuse": {
+                    "r": 0.5478649,
+                    "g": 0.102358036,
+                    "b": 0.8236549
+                  },
+                  "Locked": false,
+                  "Grid": true,
+                  "Snap": true,
+                  "IgnoreFoW": false,
+                  "MeasureMovement": false,
+                  "DragSelectable": true,
+                  "Autoraise": true,
+                  "Sticky": true,
+                  "Tooltip": true,
+                  "GridProjection": false,
+                  "HideWhenFaceDown": false,
+                  "Hands": false,
+                  "LuaScript": "-- Nesting test. Block 2 State 1",
+                  "LuaScriptState": "",
+                  "XmlUI": "",
+                  "GUID": "98a70d",
+                  "States": {
+                    "2": {
+                      "Name": "BlockSquare",
+                      "Transform": {
+                        "posX": -13.0,
+                        "posY": 1.45999992,
+                        "posZ": -5.0,
+                        "rotX": -7.40731537E-07,
+                        "rotY": 4.353928E-07,
+                        "rotZ": 9.409416E-07,
+                        "scaleX": 1.0,
+                        "scaleY": 1.0,
+                        "scaleZ": 1.0
+                      },
+                      "Nickname": "Nesting Block 2-2",
+                      "Description": "",
+                      "GMNotes": "",
+                      "ColorDiffuse": {
+                        "r": 0.8236549,
+                        "g": 0.102358006,
+                        "b": 0.5478649
+                      },
+                      "Locked": false,
+                      "Grid": true,
+                      "Snap": true,
+                      "IgnoreFoW": false,
+                      "MeasureMovement": false,
+                      "DragSelectable": true,
+                      "Autoraise": true,
+                      "Sticky": true,
+                      "Tooltip": true,
+                      "GridProjection": false,
+                      "HideWhenFaceDown": false,
+                      "Hands": false,
+                      "LuaScript": "-- Nesting test. Block 2 State 2",
+                      "LuaScriptState": "",
+                      "XmlUI": "",
+                      "GUID": "0a14f6"
+                    }
+                  }
+                }
+              ],
+              "GUID": "72d6ee"
+            }
+          ],
+          "GUID": "4800f3"
+        }
+      }
+    },
+    {
+      "Name": "Bag",
+      "Transform": {
+        "posX": -17.0,
+        "posY": 0.7749661,
+        "posZ": 7.0,
+        "rotX": 8.97129439E-07,
+        "rotY": 5.90371128E-05,
+        "rotZ": -1.26731564E-07,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Duplicate GUIDs",
+      "Description": "",
+      "GMNotes": "",
+      "ColorDiffuse": {
+        "r": 0.24999994,
+        "g": 0.24999994,
+        "b": 0.24999994
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "IgnoreFoW": false,
+      "MeasureMovement": false,
+      "DragSelectable": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "GridProjection": false,
+      "HideWhenFaceDown": false,
+      "Hands": false,
+      "MaterialIndex": -1,
+      "MeshIndex": -1,
+      "LuaScript": "",
+      "LuaScriptState": "",
+      "XmlUI": "",
+      "ContainedObjects": [
+        {
+          "Name": "BlockSquare",
+          "Transform": {
+            "posX": -17.0,
+            "posY": 3.55041432,
+            "posZ": 7.0,
+            "rotX": 0.008103834,
+            "rotY": 2.11624368E-07,
+            "rotZ": 6.990741E-05,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "scaleZ": 1.0
+          },
+          "Nickname": "Duplicate GUID",
+          "Description": "",
+          "GMNotes": "",
+          "ColorDiffuse": {
+            "r": 0.763163447,
+            "g": 0.763163447,
+            "b": 0.763163447
+          },
+          "Locked": false,
+          "Grid": true,
+          "Snap": true,
+          "IgnoreFoW": false,
+          "MeasureMovement": false,
+          "DragSelectable": true,
+          "Autoraise": true,
+          "Sticky": true,
+          "Tooltip": true,
+          "GridProjection": false,
+          "HideWhenFaceDown": false,
+          "Hands": false,
+          "LuaScript": "-- Duplicate GUID",
+          "LuaScriptState": "",
+          "XmlUI": "",
+          "GUID": "ababab"
+        },
+        {
+          "Name": "BlockSquare",
+          "Transform": {
+            "posX": -17.0,
+            "posY": 3.55046225,
+            "posZ": 7.0,
+            "rotX": 0.00729090348,
+            "rotY": 1.830544E-07,
+            "rotZ": 6.269578E-05,
+            "scaleX": 1.0,
+            "scaleY": 1.0,
+            "scaleZ": 1.0
+          },
+          "Nickname": "Duplicate GUID",
+          "Description": "",
+          "GMNotes": "",
+          "ColorDiffuse": {
+            "r": 0.249999911,
+            "g": 0.249999911,
+            "b": 0.249999911
+          },
+          "Locked": false,
+          "Grid": true,
+          "Snap": true,
+          "IgnoreFoW": false,
+          "MeasureMovement": false,
+          "DragSelectable": true,
+          "Autoraise": true,
+          "Sticky": true,
+          "Tooltip": true,
+          "GridProjection": false,
+          "HideWhenFaceDown": false,
+          "Hands": false,
+          "LuaScript": "-- Duplicate GUID",
+          "LuaScriptState": "",
+          "XmlUI": "",
+          "GUID": "ababab"
+        }
+      ],
+      "GUID": "efdd6a"
     }
   ],
   "LuaScript": "-- Bundled by luabundle {\"version\":\"1.6.0\"}\nlocal __bundle_require, __bundle_loaded, __bundle_register, __bundle_modules = (function(superRequire)\n\tlocal loadingPlaceholder = {[{}] = true}\n\n\tlocal register\n\tlocal modules = {}\n\n\tlocal require\n\tlocal loaded = {}\n\n\tregister = function(name, body)\n\t\tif not modules[name] then\n\t\t\tmodules[name] = body\n\t\tend\n\tend\n\n\trequire = function(name)\n\t\tlocal loadedModule = loaded[name]\n\n\t\tif loadedModule then\n\t\t\tif loadedModule == loadingPlaceholder then\n\t\t\t\treturn nil\n\t\t\tend\n\t\telse\n\t\t\tif not modules[name] then\n\t\t\t\tif not superRequire then\n\t\t\t\t\tlocal identifier = type(name) == 'string' and '\\\"' .. name .. '\\\"' or tostring(name)\n\t\t\t\t\terror('Tried to require ' .. identifier .. ', but no such module has been registered')\n\t\t\t\telse\n\t\t\t\t\treturn superRequire(name)\n\t\t\t\tend\n\t\t\tend\n\n\t\t\tloaded[name] = loadingPlaceholder\n\t\t\tloadedModule = modules[name](require, loaded, register, modules)\n\t\t\tloaded[name] = loadedModule\n\t\tend\n\n\t\treturn loadedModule\n\tend\n\n\treturn require, loaded, register, modules\nend)(nil)\n__bundle_register(\"__root\", function(require, _LOADED, __bundle_register, __bundle_modules)\n----#include TtsSaveExtractorTests/lib/foo1\nfunction foo1()\r\nend\r\n\n----#include TtsSaveExtractorTests/lib/foo1\n----#include <TtsSaveExtractorTests/lib/foo2>\ndo\nfunction foo2()\r\nend\r\n\nend\n----#include <TtsSaveExtractorTests/lib/foo2>\n----#include TtsSaveExtractorTests/lib/empty1\n----#include TtsSaveExtractorTests/lib/empty1\n----#include <TtsSaveExtractorTests/lib/empty2>\n----#include <TtsSaveExtractorTests/lib/empty2>\n----  #include TtsSaveExtractorTests/lib/foo3\nfunction foo3()\r\nend\r\n\n----  #include TtsSaveExtractorTests/lib/foo3\n\n----#include TtsSaveExtractorTests/lib/no_terminal1\n-- Do not end this file with a line feed.\r\nfunction no_terminal1()\r\nend\n----#include TtsSaveExtractorTests/lib/no_terminal1\n----#include <TtsSaveExtractorTests/lib/no_terminal2>\ndo\n-- Do not end this file with a line feed.\r\nfunction no_terminal1()\r\nend\nend\n----#include <TtsSaveExtractorTests/lib/no_terminal2>\n\n----#include TtsSaveExtractorTests/lib/foo4a\n----#include foo4b\nfunction foo4b()\r\nend\r\n\n----#include foo4b\n----#include /foo4c\nfunction foo4c()\r\nend\r\n\n----#include /foo4c\n----#include sub/foo4d\nfunction foo4d()\r\nend\r\n\n----#include sub/foo4d\n----#include /sub/foo4e\nfunction foo4e()\r\nend\r\n\n----#include /sub/foo4e\n----#include !/TtsSaveExtractorTests/lib/sub/foo4f\nfunction foo4f()\r\nend\r\n\n----#include !/TtsSaveExtractorTests/lib/sub/foo4f\n\n----#include TtsSaveExtractorTests/lib/foo4a\n\nrequire(\"TtsSaveExtractorTests/lib/qux1\")\nrequire(\"TtsSaveExtractorTests.lib.qux2\")\n----#include TtsSaveExtractorTests/lib/foo5\nrequire(\"TtsSaveExtractorTests.lib.qux3\")\r\n\n----#include TtsSaveExtractorTests/lib/foo5\n\nfunction onLoad()\nend\n\nend)\n__bundle_register(\"TtsSaveExtractorTests.lib.qux3\", function(require, _LOADED, __bundle_register, __bundle_modules)\nlocal qux3 = { }\r\nreturn qux3\r\n\nend)\n__bundle_register(\"TtsSaveExtractorTests.lib.qux2\", function(require, _LOADED, __bundle_register, __bundle_modules)\nlocal qux2 = { }\r\nrequire(\"TtsSaveExtractorTests.lib.qux3\")\r\nreturn qux2\r\n\nend)\n__bundle_register(\"TtsSaveExtractorTests/lib/qux1\", function(require, _LOADED, __bundle_register, __bundle_modules)\nlocal qux1 = { }\r\nreturn qux1\r\n\nend)\nreturn __bundle_require(\"__root\")",

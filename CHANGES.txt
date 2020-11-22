@@ -1,3 +1,7 @@
+1.0.4  2020-11-21
+       - Object states with scripts weren't being handled.
+       - Better handling of duplicate GUIDs.
+
 1.0.3  2020-11-21
        - Updated dependencies. Made adjustments for new lint rules.
 

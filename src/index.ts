@@ -9,7 +9,7 @@ const { dirname } = path;
 import { Readable } from 'stream';
 
 import {
-   JsonValue, JsonDict,
+   JsonValue, JsonArray, JsonDict,
    is_json_dict,
    is_json_array,
    ModuleWithScripts,
@@ -235,7 +235,7 @@ class ExtractCommand extends Command {
    opt_unbundle        = false;
 
 
-   unbundle_script_includes(libs: Record<string, string>, dir_qfn: string, script: string): string {
+   unbundle_script_includes(lib_data: Record<string, string>, dir_qfn: string, script: string): string {
       return script.replace(script_include_re,
          (match, include, include_path, included_script) => {
             included_script = chomp(included_script);
@@ -256,7 +256,7 @@ class ExtractCommand extends Command {
                qfn = dir_qfn + '/' + qfn + '.ttslua';
             }
 
-            libs[qfn] = this.unbundle_script_includes(libs, dirname(qfn), included_script);
+            lib_data[qfn] = this.unbundle_script_includes(lib_data, dirname(qfn), included_script);
 
             return include;
          },
@@ -264,7 +264,7 @@ class ExtractCommand extends Command {
    }
 
 
-   unbundle_script(libs: Record<string, string>, script: string): string {
+   unbundle_script(lib_data: Record<string, string>, script: string): string {
       let unbundled;
       try {
          unbundled = luabundle.unbundleString(script);
@@ -285,15 +285,15 @@ class ExtractCommand extends Command {
                continue;
 
             // Modules can't use #include.
-            libs[base_qfn + '.ttslua'] = module.content;
+            lib_data[base_qfn + '.ttslua'] = module.content;
          }
       }
 
-      return this.unbundle_script_includes(libs, '.', script);
+      return this.unbundle_script_includes(lib_data, '.', script);
    }
 
 
-   _unbundle_xml(libs: Record<string, string>, dir_qfn: string, xml: string): string {
+   _unbundle_xml(lib_data: Record<string, string>, dir_qfn: string, xml: string): string {
       return remove_extra_trailing_lf(xml.replace(xml_include_re,
          (match, prefix, include, include_path, included_xml) => {
             let qfn = sanitize_xml_include_path(include_path);
@@ -307,7 +307,7 @@ class ExtractCommand extends Command {
             const prefix_re = new RegExp('^' + prefix, 'mg');
             included_xml = included_xml.replace(prefix_re, '');
 
-            libs[qfn] = this._unbundle_xml(libs, dirname(qfn), included_xml);
+            lib_data[qfn] = this._unbundle_xml(lib_data, dirname(qfn), included_xml);
 
             return prefix + include;
          },
@@ -315,12 +315,12 @@ class ExtractCommand extends Command {
    }
 
 
-   unbundle_xml(libs: Record<string, string>, xml: string): string {
-      return this._unbundle_xml(libs, '.', xml);
+   unbundle_xml(lib_data: Record<string, string>, xml: string): string {
+      return this._unbundle_xml(lib_data, '.', xml);
    }
 
 
-   extract_scripts_from_mod(objs: Record<string, string>, libs: Record<string, string>, mod: ModuleWithScripts): void {
+   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: ModuleWithScripts): void {
       let script = this.opt_extract_scripts ? mod.LuaScript : undefined;
       let xml    = this.opt_extract_xml     ? mod.XmlUI     : undefined;
 
@@ -331,29 +331,21 @@ class ExtractCommand extends Command {
       if ( xml    ) xml    = normalize_line_endings(xml);
 
       if (this.opt_unbundle) {
-         if ( script ) script = this.unbundle_script( libs, script );
-         if ( xml    ) xml    = this.unbundle_xml(    libs, xml    );
+         if ( script ) script = this.unbundle_script( lib_data, script );
+         if ( xml    ) xml    = this.unbundle_xml(    lib_data, xml    );
       }
 
-      if ( script ) objs[ 'Global.-1.ttslua' ] = script;
-      if ( xml    ) objs[ 'Global.-1.xml'    ] = xml;
+      if ( script ) obj_data[ 'Global.-1.ttslua' ] = script;
+      if ( xml    ) obj_data[ 'Global.-1.xml'    ] = xml;
    }
 
 
-   extract_scripts_from_obj(objs: Record<string, string>, libs: Record<string, string>, obj: GameObjectWithScripts): void {
+   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: GameObjectWithScripts): void {
       let script = this.opt_extract_scripts ? obj.LuaScript : undefined;
       let xml    = this.opt_extract_xml     ? obj.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
-
-      if ( script ) script = normalize_line_endings(script);
-      if ( xml    ) xml    = normalize_line_endings(xml);
-
-      if (this.opt_unbundle) {
-         if ( script ) script = this.unbundle_script( libs, script );
-         if ( xml    ) xml    = this.unbundle_xml(    libs, xml    );
-      }
 
       const name = clean_str_for_path(obj.Nickname) || clean_str_for_path(obj.Name);
       if (!name)
@@ -363,10 +355,42 @@ class ExtractCommand extends Command {
       if (!guid)
          return;
 
-      const base_fn = name + '.' + guid;
+      let base_fn = name + '.' + guid;
+      if (guid in guid_counts)
+         base_fn += '-' + ++guid_counts[guid];
 
-      if ( script ) objs[ base_fn + '.ttslua' ] = script;
-      if ( xml    ) objs[ base_fn + '.xml'    ] = xml;
+      if ( script ) script = normalize_line_endings(script);
+      if ( xml    ) xml    = normalize_line_endings(xml);
+
+      if (this.opt_unbundle) {
+         if ( script ) script = this.unbundle_script( lib_data, script );
+         if ( xml    ) xml    = this.unbundle_xml(    lib_data, xml    );
+      }
+
+      if ( script ) obj_data[ base_fn + '.ttslua' ] = script;
+      if ( xml    ) obj_data[ base_fn + '.xml'    ] = xml;
+   }
+
+
+   find_guids(guid_counts: Record<string, number>, objs: JsonArray): void {
+      for (const obj of objs) {
+         if (!is_json_dict(obj))
+            continue;
+
+         if (typeof obj.GUID !== 'string')
+            continue;
+
+         const guid = clean_str_for_path(obj.GUID);
+         if (guid === '')
+            continue;
+
+         guid_counts[guid] = ( guid_counts[guid] || 0 ) + 1;
+
+         if (is_json_array(obj.ContainedObjects))
+            this.find_guids(guid_counts, obj.ContainedObjects);
+         if (is_json_dict(obj.States))
+            this.find_guids(guid_counts, Object.values(obj.States));
+      }
    }
 
 
@@ -378,32 +402,42 @@ class ExtractCommand extends Command {
          [objs_dir_qfn]: existsSync(objs_dir_qfn),
       };
 
-      const objs: Record<string, string> = { };
-      const libs: Record<string, string> = { };
+      const obj_data: Record<string, string> = { };
+      const lib_data: Record<string, string> = { };
 
       if (is_module_with_scripts(mod))
-         this.extract_scripts_from_mod(objs, libs, mod);
+         this.extract_scripts_from_mod(obj_data, lib_data, mod);
 
       if (is_json_array(mod.ObjectStates)) {
-         for (const obj of mod.ObjectStates) {
+         const guid_counts: Record<string, number> = { };
+         this.find_guids(guid_counts, mod.ObjectStates);
+         for (const guid of Object.keys(guid_counts)) {
+            if (guid_counts[guid] > 1)
+               guid_counts[guid] = 0;
+            else
+               delete guid_counts[guid];
+         }
+
+         const objs: JsonValue[] = [ ...mod.ObjectStates ];
+
+         while (objs.length) {
+            const obj = objs.pop() as JsonValue;
             if (!is_json_dict(obj))
                continue;
 
-            if (is_game_object_with_scripts(obj))
-               this.extract_scripts_from_obj(objs, libs, obj);
+            if (is_json_array(obj.ContainedObjects))
+               objs.push(...obj.ContainedObjects);
+            if (is_json_dict(obj.States))
+               objs.push(...Object.values(obj.States));
 
-            if (is_json_array(obj.ContainedObjects)) {
-               for (const child_obj of obj.ContainedObjects) {
-                  if (is_game_object_with_scripts(child_obj))
-                     this.extract_scripts_from_obj(objs, libs, child_obj);
-               }
-            }
+            if (is_game_object_with_scripts(obj))
+               this.extract_scripts_from_obj(obj_data, lib_data, guid_counts, obj);
          }
       }
 
-      for (const fn of Object.keys(objs)) {
+      for (const fn of Object.keys(obj_data)) {
          const qfn = path.join(objs_dir_qfn, fn);
-         const file = objs[fn];
+         const file = obj_data[fn];
 
          if (!dir_exists[objs_dir_qfn]) {
             mkdirSync(objs_dir_qfn);
@@ -413,9 +447,9 @@ class ExtractCommand extends Command {
          writeTextFileSync(qfn, file);
       }
 
-      for (const partial_qfn of Object.keys(libs)) {
+      for (const partial_qfn of Object.keys(lib_data)) {
          const qfn = path.join(libs_dir_qfn, partial_qfn);
-         const file = libs[partial_qfn];
+         const file = lib_data[partial_qfn];
 
          const dir_qfn = dirname(qfn);
          if (!dir_exists[dir_qfn]) {

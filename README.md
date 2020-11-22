@@ -110,8 +110,8 @@ The extracted scripts and modules and XML should be byte-for-byte equivalent wit
 * Line endings will be normalized for the current platform (CRLF on Windows, LF elsewhere).
 * Non-empty files that do not end with a line ending will be given one.
 
-It is possible for multiple objects to have the same GUID. In such a situation,
-it is possible to end up with the scripts and XML of only one of the objects.
+It is possible for multiple objects to have the same GUID. The tool handles this situation
+gracefully. Similarly, the tool handles Notebook entries with the same title gracefully.
 
 The tool avoids using a few particularly dangerous characters in the names of files it creates.
 While this could result in a file that differently named than the directive used to include it,
