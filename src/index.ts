@@ -11,6 +11,7 @@ import { Readable } from 'stream';
 import {
    JsonValue, JsonArray, JsonDict,
    is_json_dict, is_json_array,
+   ObjDataRow, TabDataRow,
 } from './types';
 
 
@@ -92,6 +93,13 @@ function sanitize_xml_include_path(include_path: string): string|undefined {
       return undefined;
 
    return include_path + '.xml';
+}
+
+
+const valid_guid_re = /^[0-9a-fA-F]{6}$/;
+
+function is_valid_guid(s: string): boolean {
+   return valid_guid_re.test(s);
 }
 
 
@@ -314,9 +322,9 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: Readonly<JsonDict>): void {
-      let script = typeof mod.LuaScript === 'string' ? mod.LuaScript : undefined;
-      let xml    = typeof mod.XmlUI     === 'string' ? mod.XmlUI     : undefined;
+   extract_scripts_from_mod_or_obj(obj_data: ObjDataRow[], lib_data: Record<string, string>, name: string, guid: string, mod_or_obj: Readonly<JsonDict>): void {
+      let script = typeof mod_or_obj.LuaScript === 'string' ? mod_or_obj.LuaScript : undefined;
+      let xml    = typeof mod_or_obj.XmlUI     === 'string' ? mod_or_obj.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
@@ -329,18 +337,16 @@ class ExtractCommand extends Command {
          if ( xml    ) xml    = this.unbundle_xml(    lib_data, xml    );
       }
 
-      if ( script ) obj_data[ 'Global.-1.ttslua' ] = script;
-      if ( xml    ) obj_data[ 'Global.-1.xml'    ] = xml;
+      obj_data.push({ name: name, guid: guid, index: 0, script: script, xml: xml });
    }
 
 
-   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: Readonly<JsonDict>): void {
-      let script = typeof obj.LuaScript === 'string' ? obj.LuaScript : undefined;
-      let xml    = typeof obj.XmlUI     === 'string' ? obj.XmlUI     : undefined;
+   extract_scripts_from_mod(obj_data: ObjDataRow[], lib_data: Record<string, string>, mod: Readonly<JsonDict>): void {
+      this.extract_scripts_from_mod_or_obj(obj_data, lib_data, 'Global', '-1', mod);
+   }
 
-      if (!script && !xml)
-         return;
 
+   extract_scripts_from_obj(obj_data: ObjDataRow[], lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: Readonly<JsonDict>): void {
       let name;
       if (!name && typeof obj.Nickname === 'string')
          name = clean_str_for_path(obj.Nickname);
@@ -349,26 +355,11 @@ class ExtractCommand extends Command {
       if (!name)
          return;
 
-      let guid;
-      if (!guid && typeof obj.GUID === 'string')
-         guid = clean_str_for_path(obj.GUID);
-      if (!guid)
+      const guid = obj.GUID;
+      if (typeof guid !== 'string' || !is_valid_guid(guid))
          return;
 
-      let base_fn = name + '.' + guid;
-      if (guid in guid_counts)
-         base_fn += '-' + ++guid_counts[guid];
-
-      if ( script ) script = normalize_line_endings(script);
-      if ( xml    ) xml    = normalize_line_endings(xml);
-
-      if (this.opt_unbundle) {
-         if ( script ) script = this.unbundle_script( lib_data, script );
-         if ( xml    ) xml    = this.unbundle_xml(    lib_data, xml    );
-      }
-
-      if ( script ) obj_data[ base_fn + '.ttslua' ] = script;
-      if ( xml    ) obj_data[ base_fn + '.xml'    ] = xml;
+      this.extract_scripts_from_mod_or_obj(obj_data, lib_data, name, guid, obj);
    }
 
 
@@ -402,7 +393,7 @@ class ExtractCommand extends Command {
          [objs_dir_qfn]: existsSync(objs_dir_qfn),
       };
 
-      const obj_data: Record<string, string> = { };
+      const obj_data: ObjDataRow[] = [ ];
       const lib_data: Record<string, string> = { };
 
       this.extract_scripts_from_mod(obj_data, lib_data, mod);
@@ -433,16 +424,23 @@ class ExtractCommand extends Command {
          }
       }
 
-      for (const fn of Object.keys(obj_data)) {
-         const qfn = path.join(objs_dir_qfn, fn);
-         const file = obj_data[fn];
-
+      if (obj_data.length) {
          if (!dir_exists[objs_dir_qfn]) {
             mkdirSync(objs_dir_qfn);
             dir_exists[objs_dir_qfn] = true;
          }
 
-         writeTextFileSync(qfn, file);
+         const counts: Record<string, number> = { };
+         for (const obj of obj_data) {
+            // eslint-disable-next-line no-multi-assign
+            obj.index = counts[obj.guid] = ( counts[obj.guid] || 0 ) + 1;
+         }
+
+         for (const obj of obj_data) {
+            const base_fn = obj.name + '.' + obj.guid + ( counts[obj.guid] > 1 ? '-' + obj.index : '' );
+            if ( obj.script ) writeTextFileSync( path.join( objs_dir_qfn, base_fn + '.ttslua' ), obj.script );
+            if ( obj.xml    ) writeTextFileSync( path.join( objs_dir_qfn, base_fn + '.xml'    ), obj.xml    );
+         }
       }
 
       for (const partial_qfn of Object.keys(lib_data)) {
@@ -488,7 +486,7 @@ class ExtractCommand extends Command {
          },
       );
 
-      const counts: Record<string, number> = { };
+      const tab_data: TabDataRow[] = [ ];
       for (const key of keys) {
          const tab = tabs[key];
          if (!is_json_dict(tab))
@@ -502,21 +500,34 @@ class ExtractCommand extends Command {
             continue;
 
          const title = typeof tab.title === 'string' ? normalize_line_endings(tab.title) : '';
+         const base_fn = clean_str_for_path(title) || '[Untitled]';
 
-         let base_fn = clean_str_for_path(title) || '[Untitled]';
-         if (counts[base_fn]) {
-            base_fn += '.' + ++counts[base_fn];
-         } else {
-            counts[base_fn] = 1;
-         }
+         tab_data.push({
+            base_fn: base_fn,
+            index:   0,
+            title:   title,
+            body:    body,
+         });
+      }
 
-         if (!dir_exists) {
-            mkdirSync(notebook_dir_qfn);
-            dir_exists = true;
-         }
+      if (!tab_data.length)
+         return;
 
-         const file = 'Title: ' + title + '\n\n' + body;
-         writeTextFileSync(path.join(notebook_dir_qfn, base_fn + '.txt'), file);
+      if (!dir_exists) {
+         mkdirSync(notebook_dir_qfn);
+         dir_exists = true;
+      }
+
+      const counts: Record<string, number> = { };
+      for (const tab of tab_data) {
+         // eslint-disable-next-line no-multi-assign
+         tab.index = counts[tab.base_fn] = ( counts[tab.base_fn] || 0 ) + 1;
+      }
+
+      for (const tab of tab_data) {
+         const fn = tab.base_fn + ( counts[tab.base_fn] > 1 ? '.' + tab.index : '' ) + '.txt';
+         const file = 'Title: ' + tab.title + '\n\n' + tab.body;
+         writeTextFileSync(path.join(notebook_dir_qfn, fn), file);
       }
    }
 

@@ -27,3 +27,19 @@ export function is_json_dict(x: JsonValue): x is JsonDict {
 export function is_json_array(x: JsonValue): x is JsonArray {
    return Array.isArray(x);
 }
+
+
+export interface TabDataRow {
+   base_fn: string,
+   index:   number,
+   title:   string,
+   body:    string,
+}
+
+export interface ObjDataRow {
+   name:    string,
+   guid:    string,
+   index:   number,
+   script?: string,
+   xml?:    string,
+}
