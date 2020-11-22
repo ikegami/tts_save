@@ -1,6 +1,8 @@
 1.0.4  2020-11-21
        - Object states with scripts weren't being handled.
        - Better handling of duplicate GUIDs.
+       - More consistent handling of untitled notebook entries.
+       - Internal simplifications.
 
 1.0.3  2020-11-21
        - Updated dependencies. Made adjustments for new lint rules.

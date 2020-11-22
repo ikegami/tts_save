@@ -6,6 +6,7 @@
    "rules": {
       "array-bracket-spacing": [ "error", "always" ],
       "brace-style": "off",
+      "complexity": "off",
       "computed-property-spacing": "off",
       "indent": [ "error", 3 ],
       "key-spacing": [ "error", { "mode": "minimum" } ],

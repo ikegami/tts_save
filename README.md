@@ -111,7 +111,7 @@ The extracted scripts and modules and XML should be byte-for-byte equivalent wit
 * Non-empty files that do not end with a line ending will be given one.
 
 It is possible for multiple objects to have the same GUID. The tool handles this situation
-gracefully. Similarly, the tool handles Notebook entries with the same title gracefully.
+gracefully. Similarly, the tool handles notebook entries with the same title gracefully.
 
 The tool avoids using a few particularly dangerous characters in the names of files it creates.
 While this could result in a file that differently named than the directive used to include it,

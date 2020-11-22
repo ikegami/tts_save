@@ -10,13 +10,7 @@ import { Readable } from 'stream';
 
 import {
    JsonValue, JsonArray, JsonDict,
-   is_json_dict,
-   is_json_array,
-   ModuleWithScripts,
-   GameObjectWithScripts,
-   is_module_with_scripts,
-   is_game_object_with_scripts,
-   is_module_with_notebook,
+   is_json_dict, is_json_array,
 } from './types';
 
 
@@ -320,9 +314,9 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: Readonly<ModuleWithScripts>): void {
-      let script = this.opt_extract_scripts ? mod.LuaScript : undefined;
-      let xml    = this.opt_extract_xml     ? mod.XmlUI     : undefined;
+   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: Readonly<JsonDict>): void {
+      let script = typeof mod.LuaScript === 'string' ? mod.LuaScript : undefined;
+      let xml    = typeof mod.XmlUI     === 'string' ? mod.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
@@ -340,18 +334,24 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: Readonly<GameObjectWithScripts>): void {
-      let script = this.opt_extract_scripts ? obj.LuaScript : undefined;
-      let xml    = this.opt_extract_xml     ? obj.XmlUI     : undefined;
+   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: Readonly<JsonDict>): void {
+      let script = typeof obj.LuaScript === 'string' ? obj.LuaScript : undefined;
+      let xml    = typeof obj.XmlUI     === 'string' ? obj.XmlUI     : undefined;
 
       if (!script && !xml)
          return;
 
-      const name = clean_str_for_path(obj.Nickname) || clean_str_for_path(obj.Name);
+      let name;
+      if (!name && typeof obj.Nickname === 'string')
+         name = clean_str_for_path(obj.Nickname);
+      if (!name && typeof obj.Name === 'string')
+         name = clean_str_for_path(obj.Name);
       if (!name)
          return;
 
-      const guid = clean_str_for_path(obj.GUID);
+      let guid;
+      if (!guid && typeof obj.GUID === 'string')
+         guid = clean_str_for_path(obj.GUID);
       if (!guid)
          return;
 
@@ -405,8 +405,7 @@ class ExtractCommand extends Command {
       const obj_data: Record<string, string> = { };
       const lib_data: Record<string, string> = { };
 
-      if (is_module_with_scripts(mod))
-         this.extract_scripts_from_mod(obj_data, lib_data, mod);
+      this.extract_scripts_from_mod(obj_data, lib_data, mod);
 
       if (is_json_array(mod.ObjectStates)) {
          const guid_counts: Record<string, number> = { };
@@ -430,8 +429,7 @@ class ExtractCommand extends Command {
             if (is_json_dict(obj.States))
                objs.push(...Object.values(obj.States));
 
-            if (is_game_object_with_scripts(obj))
-               this.extract_scripts_from_obj(obj_data, lib_data, guid_counts, obj);
+            this.extract_scripts_from_obj(obj_data, lib_data, guid_counts, obj);
          }
       }
 
@@ -463,13 +461,14 @@ class ExtractCommand extends Command {
 
 
    extract_notes(mod: Readonly<JsonDict>): void {
-      if (!is_module_with_notebook(mod))
+      const tabs = mod.TabStates;
+      if (!is_json_dict(tabs))
          return;
 
       const notebook_dir_qfn = path.join(this.out_dir_qfn, 'notes');
       let dir_exists = existsSync(notebook_dir_qfn);
 
-      const keys = Object.keys(mod.TabStates);
+      const keys = Object.keys(tabs);
       keys.sort(
          (a, b) => {
             const a_num = Number.parseInt(a, 10);
@@ -491,28 +490,33 @@ class ExtractCommand extends Command {
 
       const counts: Record<string, number> = { };
       for (const key of keys) {
-         const tab = mod.TabStates[key];
-
-         const notes = normalize_line_endings(tab.body);
-         if (!notes.length)
+         const tab = tabs[key];
+         if (!is_json_dict(tab))
             continue;
 
-         const title = clean_str_for_path(tab.title) || '[Untitled]';
-         if (counts[title]) {
-            ++counts[title];
-         } else {
-            counts[title] = 1;
-         }
+         if (typeof tab.body !== 'string')
+            continue;
 
-         const fn = title + ( counts[title] === 1 ? '' : '.' + counts[title] ) + '.txt';
+         const body = normalize_line_endings(tab.body);
+         if (!body.length)
+            continue;
+
+         const title = typeof tab.title === 'string' ? normalize_line_endings(tab.title) : '';
+
+         let base_fn = clean_str_for_path(title) || '[Untitled]';
+         if (counts[base_fn]) {
+            base_fn += '.' + ++counts[base_fn];
+         } else {
+            counts[base_fn] = 1;
+         }
 
          if (!dir_exists) {
             mkdirSync(notebook_dir_qfn);
             dir_exists = true;
          }
 
-         const file = ( tab.title.length ? 'Title: ' + normalize_line_endings(tab.title) + '\n\n' : '' ) + notes;
-         writeTextFileSync(path.join(notebook_dir_qfn, fn), file);
+         const file = 'Title: ' + title + '\n\n' + body;
+         writeTextFileSync(path.join(notebook_dir_qfn, base_fn + '.txt'), file);
       }
    }
 
