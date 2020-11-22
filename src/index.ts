@@ -320,7 +320,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: ModuleWithScripts): void {
+   extract_scripts_from_mod(obj_data: Record<string, string>, lib_data: Record<string, string>, mod: Readonly<ModuleWithScripts>): void {
       let script = this.opt_extract_scripts ? mod.LuaScript : undefined;
       let xml    = this.opt_extract_xml     ? mod.XmlUI     : undefined;
 
@@ -340,7 +340,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: GameObjectWithScripts): void {
+   extract_scripts_from_obj(obj_data: Record<string, string>, lib_data: Record<string, string>, guid_counts: Record<string, number>, obj: Readonly<GameObjectWithScripts>): void {
       let script = this.opt_extract_scripts ? obj.LuaScript : undefined;
       let xml    = this.opt_extract_xml     ? obj.XmlUI     : undefined;
 
@@ -372,7 +372,7 @@ class ExtractCommand extends Command {
    }
 
 
-   find_guids(guid_counts: Record<string, number>, objs: JsonArray): void {
+   find_guids(guid_counts: Record<string, number>, objs: Readonly<JsonArray>): void {
       for (const obj of objs) {
          if (!is_json_dict(obj))
             continue;
@@ -394,7 +394,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_scripts(mod: JsonDict): void {
+   extract_scripts(mod: Readonly<JsonDict>): void {
       const libs_dir_qfn = path.join(this.out_dir_qfn, 'lib');
       const objs_dir_qfn = path.join(this.out_dir_qfn, 'objs');
       const dir_exists: Record<string, boolean> = {
@@ -462,7 +462,7 @@ class ExtractCommand extends Command {
    }
 
 
-   extract_notes(mod: JsonDict): void {
+   extract_notes(mod: Readonly<JsonDict>): void {
       if (!is_module_with_notebook(mod))
          return;
 
