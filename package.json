@@ -1,7 +1,7 @@
 {
 	"name": "tts_save_extractor",
 	"description": "Extract components from a Tabletop Simulator save file.",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"author": "Eric Brine <ikegami@adaelis.com>",
 	"bin": {
 		"tts_save_extractor": "./bin/run"

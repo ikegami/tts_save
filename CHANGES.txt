@@ -1,3 +1,6 @@
+1.0.6  2020-12-02
+       - Remove inappropriate mention of StackOverflow.
+
 1.0.5  2020-11-21
        - Slightly better homepage link.
 

@@ -125,9 +125,7 @@ a file named `../../etc/passwd`).
 
 # Support
 
-If you need help, [Stack Overflow](https://stackoverflow.com/) is a great resource.
-
-You may also contact the [author](#author) directly.
+You may contact the [author](#author) directly.
 
 Bugs and improvements can be reported using GitHub's issue tracker at
 [https://github.com/ikegami/tts_save_extractor/issues](https://github.com/ikegami/tts_save_extractor/issues).
