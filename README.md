@@ -105,7 +105,7 @@ Tabletop Simulator's "Saves" folder.
      }
      ```
 
-     Values for `type` are:
+     The following are the possible values for `type`:
 
      * `asset_bundle`
      * `audio`
@@ -141,13 +141,14 @@ It is possible for multiple objects to have the same GUID. The tool handles this
 gracefully. Similarly, the tool handles notebook entries with the same title gracefully.
 
 The tool avoids using a few particularly dangerous characters in the names of files it creates.
-While this could result in a file that differently named than the directive used to include it,
-you should never encounter this in practice. You could end up with very oddly-named files in
-the event of a maliciously-created file, and even some that contains shell metacharacters.
+While this could result in a file that's named differently than the directive used to include it,
+you should never encounter this in practice.
 
-However, the tool constrains its output to the specified directory,
-even when provided a maliciously-crafted file (e.g. one that includes
-a file named `../../etc/passwd`).
+On the flip side, you could end up with very oddly-named files in the event of
+a maliciously-created save file. The name of files could even contain shell
+metacharacters. However, the tool constrains its output to the specified
+directory, even when provided a maliciously-crafted save file (e.g. one that
+includes a file named `../../etc/passwd`).
 
 
 # Support

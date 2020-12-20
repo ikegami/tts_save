@@ -218,7 +218,7 @@ class ExtractCommand extends Command {
       all:      flags.boolean({ char: 'a', description: 'Extract everything, and unbundle included/required files.' }),
       scripts:  flags.boolean({ char: 's', description: 'Extract scripts.' }),
       xml:      flags.boolean({ char: 'x', description: 'Extract XML.' }),
-      linked:   flags.boolean({ char: 'l', description: 'Save linked resources.' }),
+      linked:   flags.boolean({ char: 'l', description: 'Save list of linked resources.' }),
       notes:    flags.boolean({ char: 'n', description: 'Extract Notebook entries.' }),
       unbundle: flags.boolean({ char: 'u', description: 'Unbundle included/required files.' }),
    };
