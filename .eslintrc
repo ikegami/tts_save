@@ -32,6 +32,7 @@
       "unicorn/better-regex": "off",
       "unicorn/catch-error-name": [ "error", { "name": "e" } ],
       "unicorn/explicit-length-check": "off",
+      "unicorn/filename-case": "off",
       "unicorn/no-useless-undefined": "off",
       "unicorn/prefer-ternary": "off",
       "unicorn/prevent-abbreviations": "off",
