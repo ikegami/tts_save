@@ -1,13 +1,13 @@
-TTS Save File Extractor
-=======================
+TTS Save File Tools
+===================
 
-`tts_save_extractor` is a command-line tool for extracting
-the components from a Tabletop Simulator save file.
+`tts_save` is a command-line tool for extracting
+components from a Tabletop Simulator save file.
 
-[![Version](https://img.shields.io/npm/v/tts_save_extractor.svg)](https://npmjs.org/package/tts_save_extractor)
-[![License](https://img.shields.io/npm/l/tts_save_extractor.svg)](https://github.com/ikegami/tts_save_extractor/blob/main/LICENSE)
+[![Version](https://img.shields.io/npm/v/tts_save.svg)](https://npmjs.org/package/tts_save)
+[![License](https://img.shields.io/npm/l/tts_save.svg)](https://github.com/ikegami/tts_save/blob/main/LICENSE)
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io/)
-[![Downloads/month](https://img.shields.io/npm/dm/tts_save_extractor.svg)](https://npmjs.org/package/tts_save_extractor)
+[![Downloads/month](https://img.shields.io/npm/dm/tts_save.svg)](https://npmjs.org/package/tts_save)
 
 * [Installation](#installation)
 * [Synopsis](#synopsis)
@@ -18,10 +18,11 @@ the components from a Tabletop Simulator save file.
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 
+
 # Installation
 
 ```sh
-npm install -g tts_save_extractor
+npm install -g tts_save
 ```
 
 `npm` is provided by [Node.js](https://nodejs.org/).
@@ -33,19 +34,41 @@ To extract all components of `TS_Save_000.json` into the
 `out` subdirectory, use the following:
 
 ```sh
-tts_save_extractor -a -o out TS_Save_000.json
+tts_save extract -a -o out TS_Save_000.json
 ```
 
 This works whether `TS_Save_000.json` is found in the current
 directory or in TTS's `Saves` directory.
 
 
-# Usage
+# Commands
+
+* [`help`](#command-help)
+* [`version`](#command-version)
+* [`extract`](#command-help)
+
+
+## Command: `help`
 
 ```sh
-tts_save_extractor (-h|--help)
-tts_save_extractor (-v|--version)
-tts_save_extractor [options] [--] [TS_Save_000.json]
+tts_save (help|-h|--help) [command]
+```
+
+
+## Command: `version`
+
+```sh
+tts_save (version|-v|--version)
+```
+
+
+## Command: `extract`
+
+Extract components from a Tabletop Simulator save file.
+
+```sh
+tts_save extract (-h|--help)
+tts_save extract [options] [--] [TS_Save_000.json]
 ```
 
 From the specified file, this tool will extract the components
@@ -59,7 +82,7 @@ find the named file there, it will then look in
 Tabletop Simulator's "Saves" folder.
 
 
-## Options:
+### Options:
 
 * `--output=DIR`, `-o DIR`
 
@@ -130,9 +153,10 @@ Tabletop Simulator's "Saves" folder.
     directory.
 
 
-# Accuracy, Conflicts and Safety
+### Accuracy, Conflicts and Safety
 
-The extracted scripts and modules and XML should be byte-for-byte equivalent with the original files, with the following exceptions:
+The extracted scripts and modules and XML should be byte-for-byte equivalent with the original files,
+with the following exceptions:
 
 * Line endings will be normalized for the current platform (CRLF on Windows, LF elsewhere).
 * Non-empty files that do not end with a line ending will be given one.
@@ -156,13 +180,13 @@ includes a file named `../../etc/passwd`).
 You may contact the [author](#author) directly.
 
 Bugs and improvements can be reported using GitHub's issue tracker at
-[https://github.com/ikegami/tts_save_extractor/issues](https://github.com/ikegami/tts_save_extractor/issues).
+[https://github.com/ikegami/tts_save/issues](https://github.com/ikegami/tts_save/issues).
 
 
 # Repository
 
-* Web: [https://github.com/ikegami/tts_save_extractor](https://github.com/ikegami/tts_save_extractor)
-* git: [https://github.com/ikegami/tts_save_extractor.git](https://github.com/ikegami/tts_save_extractor.git)
+* Web: [https://github.com/ikegami/tts_save](https://github.com/ikegami/tts_save)
+* git: [https://github.com/ikegami/tts_save.git](https://github.com/ikegami/tts_save.git)
 
 
 # Author

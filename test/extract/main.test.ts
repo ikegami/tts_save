@@ -3,8 +3,6 @@ import fs from 'fs';
 const { readdirSync, readFileSync, rmdirSync } = fs;
 import path from 'path';
 
-import cmd = require('../src');
-
 // -----
 
 // All returned paths are relative to the provided path.
@@ -62,7 +60,7 @@ describe('Script and XML Extraction',
       const run_cmd =
          test
             .stdout()
-            .do(() => cmd.run([ '-a', '-o', resulting_dir_qfn, test_file_qfn ]));
+            .command([ 'extract', '-a', '-o', resulting_dir_qfn, test_file_qfn ]);
 
       run_cmd
          .it('Empty Output', ctx => {

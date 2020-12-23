@@ -31,6 +31,7 @@
       "template-curly-spacing": "off",
       "unicorn/better-regex": "off",
       "unicorn/catch-error-name": [ "error", { "name": "e" } ],
+      "unicorn/empty-brace-spaces": off,
       "unicorn/explicit-length-check": "off",
       "unicorn/filename-case": "off",
       "unicorn/no-useless-undefined": "off",

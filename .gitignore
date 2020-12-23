@@ -1,8 +1,9 @@
 *-debug.log
 *-error.log
+/.nyc_output
 /dist
 /lib
-/test/main/out
-/tmp
+/node_modules
 /package-lock.json
-node_modules
+/test/extract/main/out
+/tmp

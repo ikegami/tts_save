@@ -17,7 +17,7 @@
       "strictFunctionTypes": true,
       "strictBindCallApply": true,
       "strictPropertyInitialization": true,
-      "target": "es2015",
+      "target": "es2017",
       "typeRoots": [
          "src/types",
          "node_modules/@types"
