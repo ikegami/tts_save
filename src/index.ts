@@ -20,7 +20,7 @@ class ExtractCommand extends Command {
       help:     flags.help({ char: 'h' }),
       version:  flags.version({ char: 'v' }),
 
-      output:   flags.string({ char: 'o', default: '.', description: 'Output path of the root (entry point) module.' }),
+      output:   flags.string({ char: 'o', default: '.', description: 'Output path.' }),
 
       all:      flags.boolean({ char: 'a', description: 'Extract everything, and unbundle included/required files.' }),
       scripts:  flags.boolean({ char: 's', description: 'Extract scripts.' }),
