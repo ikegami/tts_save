@@ -65,9 +65,9 @@ Tabletop Simulator's "Saves" folder.
 
     Default: `.`
 
-    The directory in which the extracted components should be placed.
-    This directory need not exist. But it does, existing files within
-    the directory will not be deleted. They may, however, be overwritten.
+    The directory into which the extracted components should be placed.
+    This directory need not exist. If it does, existing files within
+    the directory won't be deleted. They may, however, be overwritten.
 
 * `--all`, `-a`
 
