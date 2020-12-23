@@ -11,12 +11,12 @@
 		"@oclif/command": "^1.8.0",
 		"@oclif/config": "^1.17.0",
 		"@oclif/plugin-help": "^3.2.0",
-		"@types/node": "^14.14.9",
 		"luabundle": "^1.6.0"
 	},
 	"devDependencies": {
 		"@oclif/test": "^1.2.7",
 		"@types/mocha": "^8.0.4",
+		"@types/node": "^14.14.9",
 		"chai": "^4.2.0",
 		"eslint": "^7.14.0",
 		"eslint-config-oclif": "^3.1.0",
