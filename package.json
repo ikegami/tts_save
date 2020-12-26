@@ -1,7 +1,7 @@
 {
    "name": "tts_save",
    "description": "Extract components from a Tabletop Simulator save file.",
-   "version": "0.0.0",
+   "version": "1.0.0",
    "author": "Eric Brine <ikegami@adaelis.com>",
    "bin": {
       "tts_save": "./bin/run"
@@ -45,7 +45,7 @@
       "/npm-shrinkwrap.json",
       "/oclif.manifest.json"
    ],
-   "homepage": "https://github.com/ikegami/tts_save",
+   "homepage": "https://github.com/ikegami/tts_save#tts_save_file_tools",
    "keywords": [
       "oclif",
       "tabletop_simulator"
@@ -57,7 +57,7 @@
       "reporter": "spec",
       "require": "ts-node/register",
       "spec": "test/**/*.ts",
-      "timeout": "10000",
+      "timeout": "2000",
       "watch-extensions": "ts"
    },
    "oclif": {

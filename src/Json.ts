@@ -5,10 +5,10 @@ export type JsonArray = JsonValue[];
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface JsonDict extends Record<string, JsonValue> { }
 
-export function is_json_dict(x: JsonValue): x is JsonDict {
-   return x instanceof Object && !Array.isArray(x);
-}
-
 export function is_json_array(x: JsonValue): x is JsonArray {
    return Array.isArray(x);
+}
+
+export function is_json_dict(x: JsonValue): x is JsonDict {
+   return x instanceof Object && !Array.isArray(x);
 }

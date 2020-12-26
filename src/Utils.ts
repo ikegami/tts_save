@@ -4,6 +4,17 @@ import { Readable } from 'stream';
 
 // ================================================================================
 
+export function padz(num: any, n: number): string {
+   let s = String(num);
+   while (s.length < n)
+      s = '0' + s;
+
+   return s;
+}
+
+
+// ================================================================================
+
 const invalid_xml_re = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/;
 const chars_to_escape_xml_re = /[\t\n\r"&'<>]/;
 const char_escapes_xml: Readonly<Record<string, string>> = {
@@ -88,6 +99,10 @@ export async function readTextFromStdin(): Promise<string> {
       return ( await readStream(process.stdin) ).toString('utf8');
    else
       return readFileSync(process.stdin.fd, 'utf8');
+}
+
+export function readTextFileSync(qfn: string): string {
+   return normalize_line_endings(readFileSync(qfn, 'utf8'));
 }
 
 export function writeTextFileSync(qfn: string, text: string): void {

@@ -12,6 +12,18 @@ export const enum LinkedResourceType {
    PDF          = 'pdf',
 }
 
+const valid_types = new Set([
+   LinkedResourceType.ASSET_BUNDLE,
+   LinkedResourceType.AUDIO,
+   LinkedResourceType.IMAGE,
+   LinkedResourceType.MODEL,
+   LinkedResourceType.PDF,
+]);
+
+export function is_linked_resource_type(type: any): type is LinkedResourceType {
+   return valid_types.has(type);
+}
+
 export type LinkedResourceDataRow = {
    url:  string,
    type: LinkedResourceType,

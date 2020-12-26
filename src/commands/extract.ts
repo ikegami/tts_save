@@ -1,11 +1,11 @@
-import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { existsSync, mkdirSync } from 'fs';
 import { Command, flags } from '@oclif/command';
 import os from 'os';
 import path from 'path';
 const { dirname } = path;
 
 import { JsonValue, JsonDict, is_json_dict } from '../Json';
-import { readTextFromStdin, writeTextFileSync } from '../Utils';
+import { readTextFromStdin, readTextFileSync, writeTextFileSync } from '../Utils';
 import { ScriptExtractor } from '../ScriptExtractor';
 import { LinkedExtractor } from '../LinkedExtractor';
 import { NotesExtractor  } from '../NotesExtractor';
@@ -138,7 +138,7 @@ class ExtractCommand extends Command {
          mod_json = await readTextFromStdin();
       }
       else if (existsSync(args.save_file)) {
-         mod_json = readFileSync(args.save_file, 'utf8');
+         mod_json = readTextFileSync(args.save_file);
       }
       else {
          const doc_dir_qfn =
@@ -148,7 +148,7 @@ class ExtractCommand extends Command {
 
          const tts_dir_qfn = path.join(doc_dir_qfn, 'My Games/Tabletop Simulator');
          const mod_fqfn = path.resolve(tts_dir_qfn, 'Saves', args.save_file);
-         mod_json = readFileSync(mod_fqfn, 'utf8');
+         mod_json = readTextFileSync(mod_fqfn);
       }
 
       if (flags.output === '')

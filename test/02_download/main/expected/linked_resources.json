@@ -1,0 +1,124 @@
+{
+   "resources": [
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531771993/9A75E19D95F39DA667EC4949C3AC6AA7F49F4471/",
+         "type": "image",
+         "fn": "image00.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772076/1E0CB4F48D33E05989E1653C4A10C0618A71F83D/",
+         "type": "image",
+         "fn": "image01.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772136/1ABC8CCF428B03AD621B70EBE947C9F28A163344/",
+         "type": "image",
+         "fn": "image02.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772196/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image03.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772282/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image04.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772349/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image05.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772412/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image06.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772477/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image07.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772535/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image08.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772593/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image09.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772702/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image10.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772762/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image11.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772825/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image12.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772880/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image13.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772936/65488B4BB686513F0CDB3A4DD8B5E056914764ED/",
+         "type": "model",
+         "fn": "model00.obj"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531772992/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image14.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531773044/65488B4BB686513F0CDB3A4DD8B5E056914764ED/",
+         "type": "model",
+         "fn": "model01.obj"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531773111/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image15.png"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531773176/CBCD13006F3B308396F43237B1350DA97108E725/",
+         "type": "asset_bundle",
+         "fn": "asset_bundle00.unity3d"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531773246/7E66A56B1E89C7CCFD827371AF549F8AD4A57B2C/",
+         "type": "pdf",
+         "fn": "pdf00.pdf"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531793136/516F47D660C281581FDDB5B23F34AAD907E616BA/",
+         "type": "audio",
+         "fn": "audio00.wav"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531794202/516F47D660C281581FDDB5B23F34AAD907E616BA/",
+         "type": "audio",
+         "fn": "audio01.wav"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531795283/516F47D660C281581FDDB5B23F34AAD907E616BA/",
+         "type": "audio",
+         "fn": "audio02.wav"
+      },
+      {
+         "url": "http://cloud-3.steamusercontent.com/ugc/1666860163531886198/685CEA6AC4960BB6C80F05BC8A6BC6176B9238F4/",
+         "type": "image",
+         "fn": "image16.png"
+      }
+   ]
+}

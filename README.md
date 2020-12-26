@@ -31,7 +31,7 @@ npm install -g tts_save
 # Synopsis
 
 To extract all components of `TS_Save_000.json` into the
-`out` subdirectory, use the following:
+`out` subdirectory, use the following command:
 
 ```sh
 tts_save extract -a -o out TS_Save_000.json
@@ -40,12 +40,20 @@ tts_save extract -a -o out TS_Save_000.json
 This works whether `TS_Save_000.json` is found in the current
 directory or in TTS's `Saves` directory.
 
+Once the above command has been executed, you can use the following
+command to download the resources referenced by the save file:
+
+```sh
+tts_save download -o out
+```
+
 
 # Commands
 
 * [`help`](#command-help)
 * [`version`](#command-version)
-* [`extract`](#command-help)
+* [`extract`](#command-extract)
+* [`download`](#command-download)
 
 
 ## Command: `help`
@@ -173,6 +181,39 @@ a maliciously-created save file. The name of files could even contain shell
 metacharacters. However, the tool constrains its output to the specified
 directory, even when provided a maliciously-crafted save file (e.g. one that
 includes a file named `../../etc/passwd`).
+
+
+## Command: `download`
+
+Download the resources referenced by a Tabletop Simulator save file.
+
+```sh
+tts_save download (-h|--help)
+tts_save download [options] [--]
+```
+
+This command expects `tts_save extract` to have previously been run.
+It uses the produced `linked_resources.json` file to determine
+which files to download and what names to give those files.
+
+The name of a downloaded file is based on how it's used in TTS
+(`image`, `audio`, etc). An attempt is made to provide the file
+with the correct extension based on its file type (e.g. `.png`
+for PNG images, `.jpg` for JPEG images, etc).
+
+As files are downloaded, `linked_resources.json` is updated to
+include the file name associated with the downloaded resources.
+
+
+### Options:
+
+* `--output=DIR`, `-o DIR`
+
+    Default: `.`
+
+    The directory into which `tts_save extract` placed `linked_resources.json`.
+    The downloaded resources will be placed in the `resources` subdirectory
+    of this directory.
 
 
 # Support
