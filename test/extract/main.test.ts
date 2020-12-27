@@ -56,24 +56,27 @@ const expected_qfn_set = new Set(expected_qfns);
 rmdirSync(resulting_dir_qfn, { recursive: true });
 
 describe('Script and XML Extraction',
-   function() {
-      const run_cmd =
+   async function() {
+      const promise = new Promise(
+         (resolve, _reject) => {
+            test
+               .stdout()
+               .command([ 'extract', '-a', '-o', resulting_dir_qfn, test_file_qfn ])
+               .finally(resolve)
+               .it('Empty Output', ctx => {
+                  expect(ctx.stdout).to.equal('');
+               });
+         },
+      );
+
+      const after_run =
          test
-            .stdout()
-            .command([ 'extract', '-a', '-o', resulting_dir_qfn, test_file_qfn ]);
-
-      run_cmd
-         .it('Empty Output', ctx => {
-            expect(ctx.stdout).to.equal('');
-         });
-
-      const with_dirs =
-         run_cmd
+            .do(async () => { await promise; })
             .add('resulting_qfns', () => find_files(resulting_dir_qfn))
             .add('resulting_qfn_set', ({ resulting_qfns }) => new Set(resulting_qfns));
 
       for (const expected_qfn of expected_qfns) {
-         with_dirs
+         after_run
             .it('File ' + expected_qfn, ctx => {
                expect(ctx.resulting_qfn_set.has(expected_qfn)).to.be.equal(true);
 
@@ -83,7 +86,7 @@ describe('Script and XML Extraction',
             });
       }
 
-      with_dirs
+      after_run
          .it('No extra files', ctx => {
             const extra = [ ];
             for (const resulting_qfn of ctx.resulting_qfns) {
