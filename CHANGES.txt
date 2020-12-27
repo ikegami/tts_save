@@ -1,3 +1,13 @@
+1.0.1  2020-12-27
+       - Documentation fixes.
+
+1.0.0  2020-12-27
+       - Convert from single-command interface to multi-command interface.
+       - Add resource-downloading functionality.
+
+Previous history under the name tts_save_extractor
+--------------------------------------------------
+
 1.1.0  2020-12-20
        - Add --linked option.
 
