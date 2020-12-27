@@ -12,7 +12,11 @@ components from a Tabletop Simulator save file.
 * [Installation](#installation)
 * [Synopsis](#synopsis)
 * [Usage](#usage)
-* [Accuracy, Safety and Conflicts](#accuracy-conflicts-and-safety)
+    * [Command: `help`](#command-help)
+    * [Command: `version`](#command-version)
+    * [Command: `extract`](#command-extract)
+        * [Accuracy, Conflicts and Safety](#accuracy-conflicts-and-safety)
+    * [Command: `download`](#command-download)
 * [Support](#support)
 * [Repository](#repository)
 * [Author](#author)
@@ -48,13 +52,7 @@ tts_save download -o out
 ```
 
 
-# Commands
-
-* [`help`](#command-help)
-* [`version`](#command-version)
-* [`extract`](#command-extract)
-* [`download`](#command-download)
-
+# Usage
 
 ## Command: `help`
 
