@@ -45,7 +45,7 @@
       "/npm-shrinkwrap.json",
       "/oclif.manifest.json"
    ],
-   "homepage": "https://github.com/ikegami/tts_save#tts_save_file_tools",
+   "homepage": "https://github.com/ikegami/tts_save#tts-save-file-tools",
    "keywords": [
       "oclif",
       "tabletop_simulator"
