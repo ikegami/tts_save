@@ -1,7 +1,7 @@
 {
    "name": "tts_save",
    "description": "Extract components from a Tabletop Simulator save file.",
-   "version": "1.0.1",
+   "version": "1.0.2",
    "author": "Eric Brine <ikegami@adaelis.com>",
    "bin": {
       "tts_save": "./bin/run"
@@ -37,7 +37,7 @@
       "eslint-config-oclif-typescript": "^0.2.0"
    },
    "engines": {
-      "node": ">=8.0.0"
+      "node": ">=14.0.0"
    },
    "files": [
       "/bin",
