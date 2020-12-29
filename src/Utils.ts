@@ -40,7 +40,7 @@ export function text_to_xml_attr(text: string): string {
 
 // ================================================================================
 
-const clean_str_for_path_re = /[\u0000-\u001F"*./:<>?\\|]]/g;  // This is still very permissive.
+const clean_str_for_path_re = /[\u0000-\u001F"*./:<>?\\|\]]/g;  // This is still very permissive.
 
 export function clean_str_for_path(s: string): string {
    return s.replace(clean_str_for_path_re, ' ').trimEnd();
