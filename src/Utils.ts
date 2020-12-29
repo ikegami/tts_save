@@ -1,4 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
+import os from 'os';
+import path from 'path';
 import { Readable } from 'stream';
 
 
@@ -86,6 +88,15 @@ export function chomp(s: string): string {
 
 // ================================================================================
 
+const ext_re = /(?<=.)\.\w*$/;
+
+export function remove_ext(s: string): string {
+   return s.replace(ext_re, '');
+}
+
+
+// ================================================================================
+
 export async function readStream(stream: Readable): Promise<Buffer> {
    const chunks = [ ];
    for await (const chunk of stream)
@@ -107,4 +118,24 @@ export function readTextFileSync(qfn: string): string {
 
 export function writeTextFileSync(qfn: string, text: string): void {
    writeFileSync(qfn, to_native_line_endings(ensure_trailing_lf(text)), 'utf8');
+}
+
+export function copyFileSync(dst_qfn: string, src_qfn: string): void {
+   writeFileSync(dst_qfn, readFileSync(src_qfn));
+}
+
+export function copyTextFileSync(dst_qfn: string, src_qfn: string): void {
+   writeTextFileSync(dst_qfn, readTextFileSync(src_qfn));
+}
+
+
+// ================================================================================
+
+export function get_tts_dir(): string {
+   const doc_dir_qfn =
+      process.platform === 'win32'
+         ? path.join(os.homedir(), 'Documents')
+         : os.homedir();
+
+   return path.join(doc_dir_qfn, 'My Games/Tabletop Simulator');
 }

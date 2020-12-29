@@ -1,10 +1,10 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { mkdirSync, readFileSync, writeFileSync, readdirSync } from 'fs';
 import got from 'got';
 import { Command, flags } from '@oclif/command';
 import path from 'path';
 
 import { JsonValue, JsonDict, is_json_array, is_json_dict } from '../Json';
-import { padz, writeTextFileSync } from '../Utils';
+import { padz, remove_ext, writeTextFileSync, get_tts_dir } from '../Utils';
 import { LinkedResourceType, is_linked_resource_type } from '../LinkedExtractor';
 
 
@@ -24,15 +24,30 @@ type JobResult = {
 
 
 // ================================================================================
+// Constants
 
-class BadFormatError extends Error {
-   constructor() {
-      super('Unrecognized format of resource file.');
-   }
-}
+const cache_subdir_by_type: Record<LinkedResourceType, string> = {
+   asset_bundle: 'Assetbundles',
+   audio:        'Audio',
+   image:        'Images',
+   model:        'Models',
+   pdf:          'PDF',
+};
 
 
 // ================================================================================
+// Private utilities.
+
+// ----------------------------------------
+
+const cache_key_filter_re = /[^a-zA-Z0-9]/g;
+
+function get_cache_key(url: string): string {
+   return url.replace(cache_key_filter_re, '');
+}
+
+
+// ----------------------------------------
 
 const determine_ext_dispatch: Record<LinkedResourceType, Function> = {
    asset_bundle: (_buf: Buffer) => '.unity3d',
@@ -71,6 +86,15 @@ function determine_ext(buf: Buffer, type: LinkedResourceType): string {
 
 // ================================================================================
 
+class BadFormatError extends Error {
+   constructor() {
+      super('Unrecognized format of resource file.');
+   }
+}
+
+
+// ================================================================================
+
 class DownloadCommand extends Command {
    static description = 'Download resources referenced by a Tabletop Simulator save file';
 
@@ -78,19 +102,62 @@ class DownloadCommand extends Command {
       help:   flags.help({ char: 'h' }),
 
       output: flags.string({ char: 'o', default: '.', description: 'Output path.' }),
+      force:  flags.boolean({ char: 'f', description: 'Don\'t use the cache.' }),
+      quiet:  flags.boolean({ char: 'q', description: 'Don\'t emit informational messages.' }),
    };
 
 
-   out_dir_qfn      = '';
+   out_dir_qfn      = '.';
    resource_dir_qfn = '';
+   cache_dir_qfn    = '';
+   opt_force        = false;
+   opt_quiet        = false;
 
 
-   async download_resource(job: Job): Promise<JobResult> {
-      const response = await got(job.url, {
-         responseType: 'buffer',
-      });
+   console_log(msg: string): void {
+      if (!this.opt_quiet)
+         console.log(msg);
+   }
 
-      const buf = response.body;
+
+   cache_listings: Record<string, Record<string, string>> = { };
+
+   get_cache_entry(job: Readonly<Job>): string|undefined {
+      try {
+         const cache_subdir_fn = cache_subdir_by_type[job.type];
+         const cache_subdir_qfn = path.join(this.cache_dir_qfn, cache_subdir_fn);
+
+         if (!(job.type in this.cache_listings)) {
+            const listing: Record<string, string> = { };
+            this.cache_listings[job.type] = listing;
+            for (const fn of readdirSync(cache_subdir_qfn)) {
+               listing[remove_ext(fn)] = path.join(cache_subdir_fn, fn);
+            }
+         }
+
+         const listing = this.cache_listings[job.type];
+         const cache_key = get_cache_key(job.url);
+         return listing[cache_key];
+      } catch {
+         return undefined;
+      }
+   }
+
+
+   async download_resource(job: Readonly<Job>): Promise<JobResult> {
+      let buf;
+      const cache_entry = this.get_cache_entry(job);
+      if (cache_entry === undefined || this.opt_force) {
+         this.console_log(`Downloading ${ job.url } as ${ job.fn }${ cache_entry === undefined ? '' : ' (forced)' }...`);
+         const response = await got(job.url, {
+            responseType: 'buffer',
+         });
+
+         buf = response.body;
+      } else {
+         this.console_log(`Fetching ${ job.url } from cache as ${ job.fn }...`);
+         buf = readFileSync(path.join(this.cache_dir_qfn, cache_entry));
+      }
 
       const ext = determine_ext(buf, job.type);
       const fn = job.fn + ext;
@@ -138,12 +205,10 @@ class DownloadCommand extends Command {
          });
       }
 
-      this.resource_dir_qfn = path.join(this.out_dir_qfn, 'resources');
       mkdirSync(this.resource_dir_qfn, { recursive: true });
 
       for (const job of todo) {
          try {
-            console.log(`Downloading ${ job.url } as ${ job.fn }...`);
             const result = await this.download_resource(job);   // eslint-disable-line no-await-in-loop
             ( resources[job.id] as JsonDict ).fn = result.fn;
             const json = JSON.stringify(data, undefined, 3);
@@ -161,7 +226,11 @@ class DownloadCommand extends Command {
       if (flags.output === '')
          flags.output = '.';
 
-      this.out_dir_qfn = flags.output;
+      this.out_dir_qfn      = flags.output;
+      this.resource_dir_qfn = path.join(this.out_dir_qfn, 'resources');
+      this.cache_dir_qfn    = path.join(get_tts_dir(), 'Mods');
+      this.opt_force        = flags.force;
+      this.opt_quiet        = flags.quiet;
 
       await this.download_resources();
    }

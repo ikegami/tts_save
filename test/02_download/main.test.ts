@@ -3,7 +3,7 @@ import fs from 'fs';
 const { readdirSync, readFileSync, mkdirSync, rmdirSync } = fs;
 import path from 'path';
 
-import { readTextFileSync, writeTextFileSync } from '../../src/Utils';
+import { copyTextFileSync } from '../../src/Utils';
 
 
 // ================================================================================
@@ -63,7 +63,7 @@ const expected_qfn_set = new Set(expected_qfns);
 
 rmdirSync(work_dir_qfn, { recursive: true });
 mkdirSync(work_dir_qfn);
-writeTextFileSync(work_linked_resources_qfn, readTextFileSync(linked_resources_qfn));
+copyTextFileSync(work_linked_resources_qfn, linked_resources_qfn);
 
 const expected_output =
    [
@@ -102,11 +102,12 @@ describe('Script and XML Extraction',
             test
                .stderr()
                .stdout()
-               .command([ 'download', '-o', work_dir_qfn ])
+               .command([ 'download', '-f', '-o', work_dir_qfn ])
                .timeout(15000)
                .finally(resolve)
-               .it('Empty Output', ctx => {
-                  expect(ctx.stderr + ctx.stdout).to.equal(expected_output);
+               .it('Expected Output', ctx => {
+                  const output = ( ctx.stderr + ctx.stdout ).replace(/ \(forced\)\.\.\.$/mg, '...');
+                  expect(output).to.equal(expected_output);
                   expect(ctx.stderr).to.equal('');
                });
          },

@@ -213,6 +213,16 @@ include the file name associated with the downloaded resources.
     The downloaded resources will be placed in the `resources` subdirectory
     of this directory.
 
+* `--force`, `-f`
+
+    By default, this tool will check if a required file is in TTS's cache.
+    If found, the cached file will copied rather than downloaded. This
+    options forces the download of files, even if they are found in TTS's cache.
+
+* `--quiet`, `-q`
+
+    Suppress informational messages.
+
 
 # Support
 
