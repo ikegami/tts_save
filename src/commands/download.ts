@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, readdirSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'fs';
 import got from 'got';
 import { Command, flags } from '@oclif/command';
 import path from 'path';
@@ -12,10 +12,11 @@ import { LinkedResourceType, is_linked_resource_type } from '../LinkedExtractor'
 // Types
 
 type Job = {
-   id:   number,
-   url:  string,
-   type: LinkedResourceType,
-   fn:   string,
+   id:      number,
+   url:     string,
+   type:    LinkedResourceType,
+   base_fn: string,
+   fn:      string | undefined,
 };
 
 type JobResult = {
@@ -145,22 +146,50 @@ class DownloadCommand extends Command {
 
 
    async download_resource(job: Readonly<Job>): Promise<JobResult> {
+      let forced = false;
       let buf;
-      const cache_entry = this.get_cache_entry(job);
-      if (cache_entry === undefined || this.opt_force) {
-         this.console_log(`Downloading ${ job.url } as ${ job.fn }${ cache_entry === undefined ? '' : ' (forced)' }...`);
+
+      if (job.fn !== undefined) {
+         const fn = job.fn;
+         const qfn = path.join(this.resource_dir_qfn, fn);
+         let exists;
+         try { exists = existsSync(qfn); } catch { }   // eslint-disable-line max-statements-per-line
+         if (exists) {
+            if (this.opt_force) {
+               forced = true;
+            } else {
+               this.console_log(`Skipping ${ job.url }. Already saved as ${ fn }.`);
+
+               return {
+                  fn: fn,
+               };
+            }
+         }
+      }
+
+      if (!forced) {
+         const cache_entry = this.get_cache_entry(job);
+         if (cache_entry !== undefined) {
+            if (this.opt_force) {
+               forced = true;
+            } else {
+               this.console_log(`Fetching ${ job.url } from cache as ${ job.base_fn }...`);
+               buf = readFileSync(path.join(this.cache_dir_qfn, cache_entry));
+            }
+         }
+      }
+
+      if (!buf) {
+         this.console_log(`Downloading ${ job.url } as ${ job.base_fn }${ forced ? ' (forced)' : '' }...`);
          const response = await got(job.url, {
             responseType: 'buffer',
          });
 
          buf = response.body;
-      } else {
-         this.console_log(`Fetching ${ job.url } from cache as ${ job.fn }...`);
-         buf = readFileSync(path.join(this.cache_dir_qfn, cache_entry));
       }
 
       const ext = determine_ext(buf, job.type);
-      const fn = job.fn + ext;
+      const fn = job.base_fn + ext;
       const qfn = path.join(this.resource_dir_qfn, fn);
       writeFileSync(qfn, buf);
 
@@ -197,11 +226,17 @@ class DownloadCommand extends Command {
          const num = type in counts ? counts[type] : 0;
          counts[type] = num + 1;
 
+         let fn: string | undefined;
+         if (typeof resource.fn === 'string') {
+            fn = resource.fn;
+         }
+
          todo.push({
-            id:   i,
-            url:  resource.url,
-            type: type,
-            fn:   type + padz(num, order),
+            id:      i,
+            url:     resource.url,
+            type:    type,
+            base_fn: type + padz(num, order),
+            fn:      fn,
          });
       }
 
@@ -214,7 +249,7 @@ class DownloadCommand extends Command {
             const json = JSON.stringify(data, undefined, 3);
             writeTextFileSync(linked_resources_qfn, json);
          } catch {
-            console.error(`Failure downloading/saving ${ job.url } as ${ job.fn }.`);
+            console.error(`Failure downloading/saving ${ job.url } as ${ job.base_fn }.`);
          }
       }
    }

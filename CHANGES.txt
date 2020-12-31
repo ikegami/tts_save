@@ -1,3 +1,10 @@
+1.2.0  2020-12-30
+       - Avoid downloading resources downloaded in a previous run
+         unless `--force`/`-f` is used.
+
+1.1.1  2020-12-29
+       - Fix bug neutering cleaning of string for use in file names.
+
 1.1.0  2020-12-28
        - Resources are now copied from TTS's cache instead of being
          downloaded from the web when possible. `--force`/`-f` can
