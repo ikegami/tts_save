@@ -190,14 +190,15 @@ tts_save download (-h|--help)
 tts_save download [options] [--]
 ```
 
-This command expects `tts_save extract` to have previously been run.
+This command expects `tts_save extract` to have previously
+been run with the `--linked`/`-l` (or `--all`/`-a`) option.
 It uses the produced `linked_resources.json` file to determine
 which files to download and what names to give those files.
 
 The name of a downloaded file is based on how it's used in TTS
-(`image`, `audio`, etc). An attempt is made to provide the file
-with the correct extension based on its file type (e.g. `.png`
-for PNG images, `.jpg` for JPEG images, etc).
+(as an image, as an audio file, etc). An attempt is made to
+provide the file with the correct extension based on its file
+type (e.g. `.png` for PNG images, `.jpg` for JPEG images, etc).
 
 As files are downloaded, `linked_resources.json` is updated to
 include the file name associated with the downloaded resources.
@@ -216,7 +217,7 @@ include the file name associated with the downloaded resources.
 * `--force`, `-f`
 
     By default, this tool will check if a required file is in TTS's cache.
-    If found, the cached file will copied rather than downloaded. This
+    If found, the file will be copied from the cache rather than downloaded. This
     options forces the download of files, even if they are found in TTS's cache.
 
 * `--quiet`, `-q`
