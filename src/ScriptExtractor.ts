@@ -120,7 +120,7 @@ const wrapped_script_re = /^do\n(.*)\nend$/s;
 
 
 /*
-   /
+   const xml_include_re = /
       ( (?: ^ [^\S\n]+ )? )
       (
          <!-- [^\S\n]+ include [^\S\n]+
@@ -130,7 +130,7 @@ const wrapped_script_re = /^do\n(.*)\nend$/s;
       \n
       (.*?)
       \2
-   /msg;
+   /xmsg;
 */
 
 const xml_include_re = /((?:^[^\S\n]+)?)(<!--[^\S\n]+include[^\S\n]+((?!--)\S(?:(?:(?!--)[^\n])*(?!--)\S)?)[^\S\n]+-->)\n(.*?)\2/msg;
